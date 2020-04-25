@@ -9,6 +9,8 @@ public class StartMenu : MonoBehaviour
     [SerializeField] GameObject[] Buttons;
     [SerializeField] Material[] materials;
     [SerializeField] Image StarterImage;
+
+    bool startGame = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,16 +28,16 @@ public class StartMenu : MonoBehaviour
         else if (Input.GetMouseButtonUp(0)) 
         {
             MouseFunctions(0); 
-            if(MouseFunctions(0).collider.gameObject.name == "Start")
-            {
-                StarterImage.transform.Rotate(new Vector3(0, 0, 360) * 10 * Time.deltaTime);
-                StarterImage.rectTransform.sizeDelta = new Vector2(1000, 1000) * 3 * Time.deltaTime;
-                if(StarterImage.rectTransform.sizeDelta == new Vector2(1000, 1000)) { SceneManager.LoadScene(1); }
-                //Place an animation in here to make the game more fun before loading the game
-                
-            }
+            if(MouseFunctions(0).collider.gameObject.name == "Start") startGame = true;
+        }
+        if (startGame)
+        {
+            StarterImage.transform.Rotate(new Vector3(0, 0, 360) * 1 * Time.deltaTime);
+            StarterImage.rectTransform.sizeDelta = new Vector2(1000, 1000);
+            if (StarterImage.rectTransform.sizeDelta == new Vector2(1000, 1000)) { SceneManager.LoadScene(1); }
         }
     }
+
 
     RaycastHit MouseFunctions(int i)
     {
