@@ -145,13 +145,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1a1cb42a2f7bb145a20a52cfb70b911, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  e_Type: 4
   b_size: {x: 0, y: 0, z: 0}
   b_Color: {fileID: 0}
   rend: {fileID: 0}
-  isColor: 0
-  isMultiColor: 0
-  isSpeed: 0
-  isShield: 0
+  points: 0
 --- !u!65 &2353340663059877832
 BoxCollider:
   m_ObjectHideFlags: 0

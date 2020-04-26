@@ -32,8 +32,8 @@ public class PlayerCamera : MonoBehaviour
     #endregion
     #region Camera Distance and Orbit Management
     [Header("Distance from Player")]
-    [Range(1, 10)]
-    [SerializeField] float distFromPlayer = 1;
+    [Range(1, 100)]
+    [SerializeField] public float distFromPlayer = 1;
     float YAxis;
     float YDistSpeed = 1;
     float camDistMax = 100;
@@ -95,6 +95,7 @@ public class PlayerCamera : MonoBehaviour
         }
         distFromPlayer = UpDownCam(invY);
         camDist = CameraRaycast(distFromPlayer);
+        //camDist = Player.GetComponent<BoxCollider>().bounds.size.y + 10;
     }
     private void LateUpdate()
     {
@@ -110,7 +111,7 @@ public class PlayerCamera : MonoBehaviour
         currentRotation = Vector3.SmoothDamp(currentRotation, new Vector3(pitch, yaw), ref smoothingVelocity, rotationsmoothTime);
         yaw += Input.GetAxis("MouseX") * sensitivity;
         transform.eulerAngles = currentRotation;
-        transform.position = Player.transform.position - (transform.forward - (transform.right * cameraOffsetX) + (transform.up * -cameraOffsetY)) * camDist;
+        transform.position = Player.transform.position - (transform.forward - (transform.right * cameraOffsetX) + (transform.up * cameraOffsetY)) * camDist;
     }
     #region CameraUtilities
 

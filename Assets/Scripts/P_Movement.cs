@@ -26,6 +26,7 @@ public class P_Movement : MonoBehaviour
     [SerializeField] float p_MoveSpeed = 8;
     BoxCollider b_collider;
     [SerializeField] bool shoot;
+    int score;
     // Start is called before the first frame update    
     void Start()
     {
@@ -150,12 +151,16 @@ public class P_Movement : MonoBehaviour
     {
         if (c.GetComponent<B_Eatable>())
         {
+            int x = c.GetComponent<B_Eatable>().points;
+
             if (c.GetComponent<B_Eatable>().b_size.y <= GetComponent<B_Eatable>().b_size.y)
             {
                 if (c.GetComponent<B_Eatable>().b_size.x <= GetComponent<B_Eatable>().b_size.x)
                 {
                     if (c.GetComponent<B_Eatable>().rend.material.color == this.gameObject.GetComponent<B_Eatable>().rend.material.color)
                     {
+                        score += x;
+                        
                         //Play SFX
                         //Play Animation
 
@@ -164,16 +169,19 @@ public class P_Movement : MonoBehaviour
                         //Play Chomp SFX
                         //Play Chomp VFX
                         print("YUMMMMM!");
-                        gameObject.transform.localScale += new Vector3(0.01f, 0.01f, 0.01f);
+                        gameObject.transform.localScale += new Vector3(x/10,x/10,x/10);
+                        cam.GetComponent<PlayerCamera>().distFromPlayer += x;
                     }
                     else
                     {
                         print("Can't Eat, Wrong Color! YUK! PUKING!! SHRINKING!!!");
+                        score -= c.GetComponent<B_Eatable>().points;
                         //Play Vomit Animation
                         //Play Shrinking VFX
                         //Play Shringin SFX
-
-                        gameObject.transform.localScale += new Vector3(-0.03f, -0.03f, -0.03f);
+                        Destroy(c.gameObject);
+                        gameObject.transform.localScale += new Vector3(-x/8, -x/8, -x/8);
+                        cam.GetComponent<PlayerCamera>().distFromPlayer -= x;
                     }
                 }
                 else

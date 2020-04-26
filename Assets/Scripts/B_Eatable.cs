@@ -8,18 +8,16 @@ using UnityEngine;
 
 public class B_Eatable : MonoBehaviour
 {
-    public enum EatableType { color, multiColor, Speed, Shield, tierOne, tierTwo, tierThree};
+    public enum EatableType { color, multiColor, Speed, Shield, tierOne, tierTwo, tierThree, Test};
+    public EatableType e_Type;
     BoxCollider b_collider;
     public Vector3 b_size;
     public Material b_Color;
     public Renderer rend;
-    public bool isColor;
-    public bool isMultiColor;
-    public bool isSpeed;
-    public bool isShield;
+
     ParticleSystem[] powerUpParticles;
 
-
+    public int points;
 
     Transform b_Tran;
 
@@ -27,21 +25,43 @@ public class B_Eatable : MonoBehaviour
     {
         b_collider = GetComponent<BoxCollider>();
         b_size = b_collider.bounds.size;
-        print(b_size + " " + gameObject.name);
+        
         if (!rend)
         {
             rend = gameObject.GetComponent<Renderer>();
             if (!rend) GetComponentInChildren<Renderer>();
         }
-        if (!b_Color)
+
+        switch (e_Type)
         {
-            if (gameObject.tag == "Player") b_Color = Resources.Load("Materials/Player") as Material;
-            
+            case EatableType.color:
+             //   powerUpParticles[0].Play();
+                break;
+            case EatableType.multiColor:
+               // powerUpParticles[1].Play();
+                break;
+            case EatableType.Speed:
+                //powerUpParticles[2].Play();
+                break;
+            case EatableType.Shield:
+                //powerUpParticles[3].Play();
+                break;
+            case EatableType.tierOne:
+                points = 1;
+                break;
+            case EatableType.tierTwo:
+                points = 5;
+                break;
+            case EatableType.tierThree:
+                points = 10;
+                break;
+            case EatableType.Test:
+                rend.material.color = Color.blue;
+                break;
+            default:
+                break;
         }
-        if (isColor) powerUpParticles[0].Play();
-        if (isMultiColor) powerUpParticles[1].Play();
-        if (isSpeed) powerUpParticles[2].Play();
-        if (isShield) powerUpParticles[3].Play();
+    
     }
     private void Update()
     {
