@@ -13,6 +13,9 @@ public class P_Movement : MonoBehaviour
 
     Rigidbody rb;
     [SerializeField] GameObject[] arms;
+    [SerializeField] GameObject[] f_Arms;
+    [Range(1,20)]
+    [SerializeField] float armSpeed = 3;
     Vector3 p_Input;
 
     [SerializeField] float maxReach;
@@ -46,22 +49,28 @@ public class P_Movement : MonoBehaviour
                 {
                     #region Moving the Arms
                     //Left1
-                    if (Input.GetKey(KeyCode.F)) { arms[3].transform.position += transform.forward * 1 * Time.deltaTime; }
+                    //if (Input.GetKey(KeyCode.F)) { arms[3].transform.position += transform.forward * 1 * Time.deltaTime; }
+                    if (Input.GetMouseButton(0)) { MouseFunctions(f_Arms[0]); TurnOffArms(true); }
+                    else if (Input.GetMouseButtonUp(0)) TurnOffArms(false);
+            
                     //Left2
-                    if (Input.GetKey(KeyCode.D)) { arms[2].transform.position += (transform.forward + (-transform.right / 4)) * 1 * Time.deltaTime; }
+                    if (Input.GetKey(KeyCode.D)) { arms[2].transform.position += (transform.forward + (-transform.right / 6)) * 1 * Time.deltaTime; }
                     //Left3
-                    if (Input.GetKey(KeyCode.S)) { arms[1].transform.position += (transform.forward + -transform.right/8) * 1 * Time.deltaTime; }
+                    if (Input.GetKey(KeyCode.S)) { arms[1].transform.position += (transform.forward + -transform.right / 8) * 1 * Time.deltaTime; }
                     //Left4
                     if (Input.GetKey(KeyCode.A)) { arms[0].transform.position += transform.forward * 1 * Time.deltaTime; }
 
                     //Right1
-                    if (Input.GetKey(KeyCode.J)) { arms[4].transform.position += transform.forward * 1 * Time.deltaTime; }
+                    //if (Input.GetKey(KeyCode.J)) { arms[4].transform.position += transform.forward * 1 * Time.deltaTime; }
+                    if (Input.GetMouseButton(1)) { MouseFunctions(f_Arms[1]); TurnOffArms(true); }
+                    else if (Input.GetMouseButtonUp(1)) TurnOffArms(false);
+
                     //Right2
-                    if (Input.GetKey(KeyCode.K)) { arms[5].transform.position += (transform.forward + transform.right/4) * 1 * Time.deltaTime; }
+                    if (Input.GetKey(KeyCode.K)) { arms[3].transform.position += (transform.forward + transform.right / 6) * 1 * Time.deltaTime; }
                     //Right3
-                    if (Input.GetKey(KeyCode.L)) { arms[6].transform.position += (transform.forward + (transform.right / 8)) * 1 * Time.deltaTime; }
+                    if (Input.GetKey(KeyCode.L)) { arms[4].transform.position += (transform.forward + (transform.right / 8)) * 1 * Time.deltaTime; }
                     //Right4
-                    if (Input.GetKey(KeyCode.Semicolon)) { arms[7].transform.position += transform.forward * 1 * Time.deltaTime; }
+                    if (Input.GetKey(KeyCode.Semicolon)) { arms[5].transform.position += transform.forward * 1 * Time.deltaTime; }
                     #endregion
                 }
                     break;
@@ -94,6 +103,25 @@ public class P_Movement : MonoBehaviour
         _ = !x;
     }
 
+    RaycastHit MouseFunctions(GameObject j)
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit))
+        {
+            j.transform.position = hit.point;
+        }
+        return hit;
+    }
+
+    void TurnOffArms(bool x)
+    {
+        foreach (var arm in arms)
+        {
+            arm.GetComponent<Rigidbody>().isKinematic = x;
+        }
+    }
+
     private void OnTriggerEnter(Collider c)
     {
         if (c.GetComponent<B_Eatable>())
@@ -102,7 +130,7 @@ public class P_Movement : MonoBehaviour
             {
                 if (c.bounds.size.x <= this.gameObject.GetComponent<BoxCollider>().size.x)
                 {
-                    if (c.GetComponent<B_Eatable>().b_Color.color == this.gameObject.GetComponent<B_Eatable>().b_Color.color)
+                    if (c.GetComponent<B_Eatable>().rend.material.color == this.gameObject.GetComponent<B_Eatable>().rend.material.color)
                     {
                         //Play SFX
                         //Play Animation

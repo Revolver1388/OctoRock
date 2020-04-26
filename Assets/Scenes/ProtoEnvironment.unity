@@ -485,7 +485,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 228360477}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1.59}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 635730283}
@@ -513,6 +513,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   b_Color: {fileID: 2100000, guid: 3ce8aded68e44524c953b31d05839d78, type: 2}
+  rend: {fileID: 0}
 --- !u!54 &228360483
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -527,7 +528,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 80
+  m_Constraints: 84
   m_CollisionDetection: 0
 --- !u!114 &228360484
 MonoBehaviour:
@@ -541,16 +542,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b255d3cb02a7a144ea8345e108684a52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  thisState: 1
+  thisState: 0
   arms:
   - {fileID: 1119347681}
   - {fileID: 528869475}
   - {fileID: 1445849783}
-  - {fileID: 809555697}
-  - {fileID: 679929378}
   - {fileID: 1127616605}
   - {fileID: 1235021664}
   - {fileID: 1023724541}
+  f_Arms:
+  - {fileID: 809555697}
+  - {fileID: 679929378}
+  armSpeed: 3
   maxReach: 0
   minReach: 0
   p_MoveSpeed: 8
@@ -662,6 +665,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   b_Color: {fileID: 2100000, guid: d5a9bc5d02f69f0439f9b30659657cb1, type: 2}
+  rend: {fileID: 0}
 --- !u!1 &528869475
 GameObject:
   m_ObjectHideFlags: 0
@@ -730,7 +734,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 528869475}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -829,6 +833,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   b_Color: {fileID: 2100000, guid: 3ce8aded68e44524c953b31d05839d78, type: 2}
+  rend: {fileID: 0}
 --- !u!65 &540486750
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -980,8 +985,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 554064055}
-  m_LocalRotation: {x: 0.48760766, y: 0.015383878, z: -0.008593664, w: 0.87288505}
-  m_LocalPosition: {x: -0.07222222, y: 7.315555, z: -4.137222}
+  m_LocalRotation: {x: 0.48760766, y: 0.015383875, z: -0.00859366, w: 0.87288505}
+  m_LocalPosition: {x: -0.07222222, y: 7.315555, z: -2.5472217}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1194,9 +1199,9 @@ SpringJoint:
   m_ConnectedBody: {fileID: 228360483}
   m_Anchor: {x: 0, y: 0.5, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.95, y: -0.38, z: 0.8}
+  m_ConnectedAnchor: {x: 0.95, y: -0.38, z: 0.8000001}
   serializedVersion: 2
-  m_Spring: 0.1
+  m_Spring: 10
   m_Damper: 0.2
   m_MinDistance: 0
   m_MaxDistance: 0
@@ -1231,7 +1236,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 679929378}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -1328,9 +1333,9 @@ SpringJoint:
   m_ConnectedBody: {fileID: 228360483}
   m_Anchor: {x: 0, y: 0.5, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.93000007, y: -0.38, z: 0.8}
+  m_ConnectedAnchor: {x: -0.93000007, y: -0.38, z: 0.8000001}
   serializedVersion: 2
-  m_Spring: 0.1
+  m_Spring: 10
   m_Damper: 0.2
   m_MinDistance: 0
   m_MaxDistance: 0
@@ -1365,7 +1370,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 809555697}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -1590,6 +1595,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   b_Color: {fileID: 2100000, guid: 3ce8aded68e44524c953b31d05839d78, type: 2}
+  rend: {fileID: 0}
 --- !u!65 &863842476
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1897,6 +1903,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   b_Color: {fileID: 2100000, guid: d5a9bc5d02f69f0439f9b30659657cb1, type: 2}
+  rend: {fileID: 0}
 --- !u!1 &1023724541
 GameObject:
   m_ObjectHideFlags: 0
@@ -1965,7 +1972,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1023724541}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -2198,7 +2205,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1119347681}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -2332,7 +2339,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1119465189}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.0066666505, y: -0.2866667, z: -0.00833333}
+  m_LocalPosition: {x: 0.0066666505, y: -0.2866667, z: 1.5816668}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -2369,7 +2376,7 @@ SpringJoint:
   m_ConnectedBody: {fileID: 228360483}
   m_Anchor: {x: 0, y: 0.5, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.95, y: -0.38, z: 0.32}
+  m_ConnectedAnchor: {x: 0.95, y: -0.38, z: 0.32000005}
   serializedVersion: 2
   m_Spring: 0.1
   m_Damper: 0.2
@@ -2406,7 +2413,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1127616605}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -2695,6 +2702,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   b_Color: {fileID: 2100000, guid: d5a9bc5d02f69f0439f9b30659657cb1, type: 2}
+  rend: {fileID: 0}
 --- !u!1 &1235021664
 GameObject:
   m_ObjectHideFlags: 0
@@ -2726,7 +2734,7 @@ SpringJoint:
   m_ConnectedBody: {fileID: 228360483}
   m_Anchor: {x: 0, y: 0.5, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.95, y: -0.38, z: -0.28}
+  m_ConnectedAnchor: {x: 0.95, y: -0.38, z: -0.27999997}
   serializedVersion: 2
   m_Spring: 0.1
   m_Damper: 0.2
@@ -2763,7 +2771,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1235021664}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -2860,7 +2868,7 @@ SpringJoint:
   m_ConnectedBody: {fileID: 228360483}
   m_Anchor: {x: 0, y: 0.5, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.93000007, y: -0.38, z: 0.32}
+  m_ConnectedAnchor: {x: -0.93000007, y: -0.38, z: 0.32000005}
   serializedVersion: 2
   m_Spring: 0.1
   m_Damper: 0.2
@@ -2897,7 +2905,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1445849783}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
@@ -2996,6 +3004,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   b_Color: {fileID: 2100000, guid: 3ce8aded68e44524c953b31d05839d78, type: 2}
+  rend: {fileID: 0}
 --- !u!65 &1485051134
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3103,6 +3112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   b_Color: {fileID: 2100000, guid: 3ce8aded68e44524c953b31d05839d78, type: 2}
+  rend: {fileID: 0}
 --- !u!65 &1551982847
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3210,6 +3220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   b_Color: {fileID: 2100000, guid: 3ce8aded68e44524c953b31d05839d78, type: 2}
+  rend: {fileID: 0}
 --- !u!65 &1661918004
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3650,6 +3661,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   b_Color: {fileID: 2100000, guid: 3ce8aded68e44524c953b31d05839d78, type: 2}
+  rend: {fileID: 0}
 --- !u!65 &1939172226
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3831,6 +3843,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   b_Color: {fileID: 2100000, guid: 3ce8aded68e44524c953b31d05839d78, type: 2}
+  rend: {fileID: 0}
 --- !u!65 &2120569301
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4012,6 +4025,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   b_Color: {fileID: 2100000, guid: d5a9bc5d02f69f0439f9b30659657cb1, type: 2}
+  rend: {fileID: 0}
 --- !u!1 &2140730204
 GameObject:
   m_ObjectHideFlags: 0
@@ -4071,8 +4085,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2140730204}
-  m_LocalRotation: {x: 0.48760766, y: 0.015383878, z: -0.008593664, w: 0.87288505}
-  m_LocalPosition: {x: -0.07222222, y: 7.315555, z: -4.137222}
+  m_LocalRotation: {x: 0.48760766, y: 0.015383875, z: -0.00859366, w: 0.87288505}
+  m_LocalPosition: {x: -0.07222222, y: 7.315555, z: -2.5472217}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1849455086}
@@ -4112,6 +4126,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   b_Color: {fileID: 2100000, guid: 3ce8aded68e44524c953b31d05839d78, type: 2}
+  rend: {fileID: 0}
 --- !u!65 &2145592803
 BoxCollider:
   m_ObjectHideFlags: 0
