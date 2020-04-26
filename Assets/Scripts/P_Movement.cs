@@ -22,13 +22,14 @@ public class P_Movement : MonoBehaviour
     [SerializeField] float minReach;
     [Range(0.3f, 10)]
     [SerializeField] float p_MoveSpeed = 8;
-
+    BoxCollider b_collider;
     [SerializeField] bool shoot;
     // Start is called before the first frame update    
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
+        b_collider = GetComponent<BoxCollider>();
     }
 
     // Update is called once per frame
@@ -37,7 +38,14 @@ public class P_Movement : MonoBehaviour
         switch (thisState)
         {
             case WalkState.KeyCrawl:
-
+                foreach (var arm in arms)
+                {
+                    arm.SetActive(true);
+                }
+                foreach (var arm in f_Arms)
+                {
+                    arm.SetActive(true);
+                }
                 if (Input.GetKeyDown(KeyCode.Space)) shoot = true;
                 else if (Input.GetKeyUp(KeyCode.Space)) shoot = false;
 
@@ -77,6 +85,14 @@ public class P_Movement : MonoBehaviour
                 }
                     break;
             case WalkState.WASD:
+                foreach (var arm in arms)
+                {
+                    arm.SetActive(false);
+                }
+                foreach (var arm in f_Arms)
+                {
+                    arm.SetActive(false);
+                }
                 p_Input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
                 
                 anim.SetFloat("Forward", p_Input.z);
@@ -131,9 +147,9 @@ public class P_Movement : MonoBehaviour
     {
         if (c.GetComponent<B_Eatable>())
         {
-            if (c.bounds.size.y <= this.gameObject.GetComponent<BoxCollider>().size.y)
+            if (c.bounds.size.y <= b_collider.size.y)
             {
-                if (c.bounds.size.x <= this.gameObject.GetComponent<BoxCollider>().size.x)
+                if (c.bounds.size.x <= b_collider.size.x)
                 {
                     if (c.GetComponent<B_Eatable>().rend.material.color == this.gameObject.GetComponent<B_Eatable>().rend.material.color)
                     {
