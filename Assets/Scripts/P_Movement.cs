@@ -147,9 +147,9 @@ public class P_Movement : MonoBehaviour
     {
         if (c.GetComponent<B_Eatable>())
         {
-            if (c.bounds.size.y <= b_collider.size.y)
+            if (c.GetComponent<B_Eatable>().b_size.y <= GetComponent<B_Eatable>().b_size.y)
             {
-                if (c.bounds.size.x <= b_collider.size.x)
+                if (c.GetComponent<B_Eatable>().b_size.x <= GetComponent<B_Eatable>().b_size.x)
                 {
                     if (c.GetComponent<B_Eatable>().rend.material.color == this.gameObject.GetComponent<B_Eatable>().rend.material.color)
                     {
@@ -176,12 +176,12 @@ public class P_Movement : MonoBehaviour
                 else
                     //Bounce Player
                     //Player Can't Eat Animation
-                    print("Can't Eat, To Big!");
+                    print("Can't Eat, To wide!");
             }
             else
                 //Bounce Player
                 //Player Can't Eat Animation
-                print("Can't Eat, To Big!");
+                print("Can't Eat, To tall!");
         }
     }
 }
