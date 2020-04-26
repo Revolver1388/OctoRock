@@ -150,6 +150,8 @@ GameObject:
   - component: {fileID: 9097757099718209512}
   - component: {fileID: 4268019569968964203}
   - component: {fileID: 4268019569968964202}
+  - component: {fileID: 8296172669219680097}
+  - component: {fileID: 8296172669219680098}
   m_Layer: 0
   m_Name: Trash_Can
   m_TagString: Untagged
@@ -202,8 +204,35 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1.8780798, z: 1.139964}
-  m_Center: {x: 0, y: 0.9073642, z: 0.009997308}
+  m_Size: {x: 1.087909, y: 0.52747834, z: 1.1000054}
+  m_Center: {x: 0.011987597, y: 0.23206347, z: 0.0060014725}
+--- !u!65 &8296172669219680097
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5195711658679016955}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.0799174, y: 0.4645548, z: 1.1358593}
+  m_Center: {x: 0.007991791, y: 1.6183245, z: 0.0039958954}
+--- !u!136 &8296172669219680098
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5195711658679016955}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.6118841
+  m_Height: 1.8391314
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.8990693, z: -0.007991672}
 --- !u!1 &8013750069984918233
 GameObject:
   m_ObjectHideFlags: 0
