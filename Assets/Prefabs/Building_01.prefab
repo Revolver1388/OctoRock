@@ -122,6 +122,7 @@ GameObject:
   - component: {fileID: 7659024488741845741}
   - component: {fileID: 3598908285041493445}
   - component: {fileID: 5327196893957832182}
+  - component: {fileID: 7233728786818364875}
   m_Layer: 0
   m_Name: Building_01
   m_TagString: Untagged
@@ -174,3 +175,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &7233728786818364875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6634096823981000958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1a1cb42a2f7bb145a20a52cfb70b911, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  b_Color: {fileID: 0}
+  rend: {fileID: 0}
+  isColor: 0
+  isMultiColor: 0
+  isSpeed: 0
+  isShield: 0

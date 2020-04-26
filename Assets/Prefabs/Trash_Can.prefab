@@ -152,6 +152,7 @@ GameObject:
   - component: {fileID: 4268019569968964202}
   - component: {fileID: 8296172669219680097}
   - component: {fileID: 8296172669219680098}
+  - component: {fileID: 7841257424811919306}
   m_Layer: 0
   m_Name: Trash_Can
   m_TagString: Untagged
@@ -233,6 +234,24 @@ CapsuleCollider:
   m_Height: 1.8391314
   m_Direction: 1
   m_Center: {x: 0, y: 0.8990693, z: -0.007991672}
+--- !u!114 &7841257424811919306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5195711658679016955}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1a1cb42a2f7bb145a20a52cfb70b911, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  b_Color: {fileID: 0}
+  rend: {fileID: 0}
+  isColor: 0
+  isMultiColor: 0
+  isSpeed: 0
+  isShield: 0
 --- !u!1 &8013750069984918233
 GameObject:
   m_ObjectHideFlags: 0
