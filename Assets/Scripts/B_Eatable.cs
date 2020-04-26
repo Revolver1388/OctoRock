@@ -45,8 +45,7 @@ public class B_Eatable : MonoBehaviour
     }
     private void Update()
     {
-        if (gameObject.GetComponent<P_Movement>()) { b_size = b_collider.bounds.size;
-            if (Input.GetKeyDown(KeyCode.Space)) print(b_size + " " + gameObject.name);
-                    }
+        if (gameObject.GetComponent<P_Movement>()) b_size = b_collider.bounds.size;
+
     }
 }
