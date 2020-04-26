@@ -12,6 +12,7 @@ public class P_Movement : MonoBehaviour
     public WalkState thisState;
     [SerializeField] Camera cam;
     [SerializeField] float rotateSpeed;
+    LevelStart lvl_Man;
     Animator anim;
     Rigidbody rb;
     [SerializeField] GameObject[] arms;
@@ -37,12 +38,14 @@ public class P_Movement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         b_collider = GetComponent<BoxCollider>();
+        lvl_Man = FindObjectOfType<LevelStart>();
         StartCoroutine(ChangeColor());
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (b_collider.bounds.size.y <= .02f) lvl_Man.gameOver = true;
         switch (thisState)
         {
             case WalkState.KeyCrawl:

@@ -9,6 +9,7 @@ public class LevelStart : MonoBehaviour
     [SerializeField] Image fadeIn;
     [SerializeField] Vector3 fadeIn_Rotation;
     [SerializeField] float fadeIn_RotationSpeed;
+    GameManager gameMan;
     public Text t_Score;
     public Text t_Text;
     public Text h_Score;
@@ -17,13 +18,15 @@ public class LevelStart : MonoBehaviour
     public float highScore;
     public float l_Time;
     public float l_MTime;
-   
-
+   public bool gameOver = false;
+    public GameObject InGameUI;
     // Start is called before the first frame update
     void Start()
     {
+        gameMan = FindObjectOfType<GameManager>();
         fadeIn.CrossFadeAlpha(0, 2, false);
         start = t_Size.transform.position;
+        gameOver = false;
     }
 
     // Update is called once per frame
@@ -55,17 +58,19 @@ public class LevelStart : MonoBehaviour
         if (l_Time <= 0)
         {
             t_Text.text = "Times Up!";
-            StartCoroutine(GameOver());
+            gameOver = true;
         }
+        if(gameOver) StartCoroutine(GameOver());
         //if (l_Time <= 30)
         //{
-            Hurry();
+        Hurry();
        // }
     }
 
-    IEnumerator GameOver()
+    public IEnumerator GameOver()
     {
-        
+
+        gameMan.gameOver = true;
         yield return new WaitForSeconds(2);
         SceneManager.LoadSceneAsync(0);
         SceneManager.UnloadSceneAsync(1);
@@ -76,6 +81,7 @@ IEnumerator WaitForStart()
     yield return new WaitForSeconds(1.5f);
         if (t_Text != null)
         {
+            InGameUI.SetActive(true);
             fadeIn.gameObject.SetActive(false);
             fadeIn.transform.Rotate(fadeIn_Rotation * 0);
             TimerTextFormat();

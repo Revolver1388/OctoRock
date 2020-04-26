@@ -31,10 +31,8 @@ public class B_Eatable : MonoBehaviour
         player = FindObjectOfType<P_Movement>().gameObject.GetComponent<BoxCollider>();
 
         if (!rend)
-        {
             rend = gameObject.GetComponent<Renderer>();
-            //if (!rend) GetComponentInChildren<Renderer>();
-        }
+
         colours[5] = rend.material.color;
 
         switch (e_Type)

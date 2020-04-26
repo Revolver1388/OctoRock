@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/StartScreenKyle.unity
     guid: d6304ed2548fe4b4db73faccd16b2320
   - enabled: 1
-    path: Assets/Scenes/ProtoEnvironment.unity
-    guid: d3e7f5b1a53ca4841a14790f2e89b68e
+    path: Assets/SimpleTown/DemoScene/SimpleTown_DemoScene.unity
+    guid: 21ba8959b0b9c5e41889da424bb00b0b
   m_configObjects: {}
