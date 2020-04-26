@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - Arms
+  - CameraAimer
   layers:
   - Default
   - TransparentFX

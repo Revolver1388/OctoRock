@@ -10,6 +10,8 @@ public class P_Movement : MonoBehaviour
     public enum WalkState { KeyCrawl, WASD, TPerson, Controller}
 
     public WalkState thisState;
+    [SerializeField] Camera cam;
+    [SerializeField] float rotateSpeed;
     Animator anim;
     Rigidbody rb;
     [SerializeField] GameObject[] arms;
@@ -27,6 +29,7 @@ public class P_Movement : MonoBehaviour
     // Start is called before the first frame update    
     void Start()
     {
+        cam = Camera.main;
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         b_collider = GetComponent<BoxCollider>();
@@ -84,7 +87,19 @@ public class P_Movement : MonoBehaviour
                     #endregion
                 }
                     break;
-            case WalkState.WASD:
+            case WalkState.WASD:         
+                p_Input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+                Vector3 camF = cam.transform.TransformDirection(Vector3.forward);
+                Vector3 camR = cam.transform.TransformDirection(Vector3.right);
+                camF.y = 0;
+                camR.y = 0;
+                camF = camF.normalized;
+                anim.SetFloat("Forward", p_Input.z);
+                anim.SetFloat("LeftRight", p_Input.x);
+
+                transform.position += (camF * p_Input.z + camR * p_Input.x) * p_MoveSpeed * Time.deltaTime;
+                //rb.MovePosition(transform.position + p_Input * p_MoveSpeed * Time.deltaTime);
+  
                 foreach (var arm in arms)
                 {
                     arm.SetActive(false);
@@ -92,15 +107,6 @@ public class P_Movement : MonoBehaviour
                 foreach (var arm in f_Arms)
                 {
                     arm.SetActive(false);
-                }
-                p_Input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-                
-                anim.SetFloat("Forward", p_Input.z);
-                anim.SetFloat("LeftRight", p_Input.x);
-                rb.MovePosition(transform.position + p_Input * p_MoveSpeed * Time.deltaTime);
-                foreach (var arm in arms)
-                {
-                    arm.GetComponent<Rigidbody>().MovePosition(arm.transform.position + p_Input * p_MoveSpeed * Time.deltaTime);
                 }
                 break;
             case WalkState.TPerson:
@@ -110,9 +116,6 @@ public class P_Movement : MonoBehaviour
                 if (Input.GetKey(KeyCode.S)) { arms[1].transform.position += (transform.forward + -transform.right/8) * 1 * Time.deltaTime; arms[0].transform.position += transform.forward * 1 * Time.deltaTime; }
                 if (Input.GetKey(KeyCode.J)) { arms[4].transform.position += transform.forward * 1 * Time.deltaTime; arms[5].transform.position += (transform.forward + transform.right/4) * 1 * Time.deltaTime; }
                 if (Input.GetKey(KeyCode.L)) { arms[6].transform.position += (transform.forward + (transform.right / 8)) * 1 * Time.deltaTime; arms[7].transform.position += transform.forward * 1 * Time.deltaTime; }
-               
-
-
                 break;
             default:
                 break;
