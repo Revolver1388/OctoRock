@@ -26,14 +26,18 @@ public class P_Movement : MonoBehaviour
     [SerializeField] float p_MoveSpeed = 8;
     BoxCollider b_collider;
     [SerializeField] bool shoot;
+    Renderer rend;
+    Color[] colours = { Color.red, Color.blue, Color.green, Color.yellow, Color.white };
     int score;
     // Start is called before the first frame update    
     void Start()
     {
         cam = Camera.main;
+        rend = GetComponent<Renderer>();
         rb = GetComponent<Rigidbody>();
         anim = GetComponent<Animator>();
         b_collider = GetComponent<BoxCollider>();
+        StartCoroutine(ChangeColor());
     }
 
     // Update is called once per frame
@@ -123,6 +127,12 @@ public class P_Movement : MonoBehaviour
         }
     }
 
+    IEnumerator ChangeColor()
+    {
+        yield return new WaitForSeconds(Random.Range(5, 15));
+        rend.material.color = colours[Random.Range(0, colours.Length)];
+        StartCoroutine(ChangeColor());
+    }
     void toggleBool(bool x)
     {
         _ = !x;
@@ -153,11 +163,11 @@ public class P_Movement : MonoBehaviour
         {
             int x = c.GetComponent<B_Eatable>().points;
 
-            if (c.GetComponent<B_Eatable>().b_size.y <= GetComponent<B_Eatable>().b_size.y)
+            if (c.GetComponent<B_Eatable>().b_size.y <= b_collider.bounds.size.y)
             {
-                if (c.GetComponent<B_Eatable>().b_size.x <= GetComponent<B_Eatable>().b_size.x)
+                if (c.GetComponent<B_Eatable>().b_size.x <= b_collider.bounds.size.x)
                 {
-                    if (c.GetComponent<B_Eatable>().rend.material.color == this.gameObject.GetComponent<B_Eatable>().rend.material.color)
+                    if (c.GetComponent<B_Eatable>().rend.material.color == rend.material.color)
                     {
                         score += x;
                         
@@ -169,7 +179,10 @@ public class P_Movement : MonoBehaviour
                         //Play Chomp SFX
                         //Play Chomp VFX
                         print("YUMMMMM!");
+                        print(b_collider.bounds.size + " Before");
+                        
                         gameObject.transform.localScale += new Vector3(x/10,x/10,x/10);
+                       
                         cam.GetComponent<PlayerCamera>().distFromPlayer += x;
                     }
                     else
@@ -180,6 +193,7 @@ public class P_Movement : MonoBehaviour
                         //Play Shrinking VFX
                         //Play Shringin SFX
                         Destroy(c.gameObject);
+                        print(b_collider.bounds.size + " Before");
                         gameObject.transform.localScale += new Vector3(-x/8, -x/8, -x/8);
                         cam.GetComponent<PlayerCamera>().distFromPlayer -= x;
                     }
@@ -194,5 +208,10 @@ public class P_Movement : MonoBehaviour
                 //Player Can't Eat Animation
                 print("Can't Eat, To tall!");
         }
+    }
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.gameObject.GetComponent<B_Eatable>())
+        print(b_collider.bounds.size + " After");
     }
 }

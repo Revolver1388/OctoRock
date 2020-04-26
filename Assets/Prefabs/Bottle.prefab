@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 6434713109233449035}
   - component: {fileID: 8382247668714962333}
   - component: {fileID: 300493644945692258}
+  - component: {fileID: 3143769853320728640}
   - component: {fileID: 2353340663059877832}
   - component: {fileID: 1672662373504108561}
   m_Layer: 0
@@ -150,6 +151,19 @@ MonoBehaviour:
   b_Color: {fileID: 0}
   rend: {fileID: 0}
   points: 0
+--- !u!65 &3143769853320728640
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2574940056968641627}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.001902113, y: 0.0019999996, z: 0.006252938}
+  m_Center: {x: -2.910383e-11, y: 0, z: 0.00079819746}
 --- !u!65 &2353340663059877832
 BoxCollider:
   m_ObjectHideFlags: 0
