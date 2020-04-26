@@ -10,7 +10,7 @@ public class P_Movement : MonoBehaviour
     public enum WalkState { KeyCrawl, WASD, TPerson, Controller}
 
     public WalkState thisState;
-
+    Animator anim;
     Rigidbody rb;
     [SerializeField] GameObject[] arms;
     [SerializeField] GameObject[] f_Arms;
@@ -28,6 +28,7 @@ public class P_Movement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -43,6 +44,7 @@ public class P_Movement : MonoBehaviour
                 if (shoot)
                 {
                     p_Input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+
                     rb.MovePosition(transform.position + p_Input * p_MoveSpeed * Time.deltaTime);
                 }
                 else if (!shoot)
@@ -76,6 +78,8 @@ public class P_Movement : MonoBehaviour
                     break;
             case WalkState.WASD:
                 p_Input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+                anim.SetFloat("Forward", p_Input.x);
+                anim.SetFloat("LeftRight", p_Input.z);
                 rb.MovePosition(transform.position + p_Input * p_MoveSpeed * Time.deltaTime);
                 foreach (var arm in arms)
                 {
