@@ -78,8 +78,9 @@ public class P_Movement : MonoBehaviour
                     break;
             case WalkState.WASD:
                 p_Input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-                anim.SetFloat("Forward", p_Input.x);
-                anim.SetFloat("LeftRight", p_Input.z);
+                
+                anim.SetFloat("Forward", p_Input.z);
+                anim.SetFloat("LeftRight", p_Input.x);
                 rb.MovePosition(transform.position + p_Input * p_MoveSpeed * Time.deltaTime);
                 foreach (var arm in arms)
                 {
