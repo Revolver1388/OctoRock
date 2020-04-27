@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/SimpleTown/DemoScene/SimpleTown_DemoScene.unity
     guid: 21ba8959b0b9c5e41889da424bb00b0b
+  - enabled: 1
+    path: Assets/Scenes/MattTestTown.unity
+    guid: d7d0a79ce8776cd4a83cc197ec631196
   m_configObjects: {}

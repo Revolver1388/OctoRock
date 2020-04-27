@@ -11,6 +11,12 @@ public class StartMenu : MonoBehaviour
     [SerializeField] Material[] materials;
     [SerializeField] Image StarterImage;
 
+
+    [SerializeField] GameObject AboutPanel;
+    [SerializeField] GameObject OptionsPanel;
+
+
+
     bool startGame = false;
     bool options = false;
 
@@ -58,4 +64,40 @@ public class StartMenu : MonoBehaviour
         }
         return hit;
     }
+
+
+     public void OpenCloseAboutPanel()
+    {
+        if (AboutPanel.activeSelf)
+        {
+            AboutPanel.SetActive(false);
+        }
+        else
+        {
+            AboutPanel.SetActive(true);
+        }
+    }
+
+    public void OpenCloseOptionsPanel()
+    {
+        if (OptionsPanel.activeSelf)
+        {
+            OptionsPanel.SetActive(false);
+        }
+        else
+        {
+            OptionsPanel.SetActive(true);
+        }
+    }
+
+    public void OnStartButton()
+    {
+        SceneManager.LoadScene("MattTestTown");
+    }
+
+    public void OnQuitButton()
+    {
+
+    }
+
 }
