@@ -29,7 +29,7 @@ public class P_Movement : MonoBehaviour
     [SerializeField] bool shoot;
     Renderer rend;
     Color[] colours = { Color.red, Color.blue, Color.green, Color.yellow, Color.white };
-    public int score;
+    public float score;
     // Start is called before the first frame update    
     void Start()
     {
@@ -164,12 +164,12 @@ public class P_Movement : MonoBehaviour
     {
         if (c.GetComponent<B_Eatable>())
         {
-            int x = c.GetComponent<B_Eatable>().points;
+            float x = c.GetComponent<B_Eatable>().points;
 
             if (c.GetComponent<B_Eatable>().b_size.y <= b_collider.bounds.size.y)
             {
-                if (c.GetComponent<B_Eatable>().b_size.x <= b_collider.bounds.size.x)
-                {
+                //if (c.GetComponent<B_Eatable>().b_size.x <= b_collider.bounds.size.x)
+                //{
                     if (c.GetComponent<B_Eatable>().rend.material.color == rend.material.color)
                     {
                         score += x;
@@ -184,8 +184,8 @@ public class P_Movement : MonoBehaviour
                         print("YUMMMMM!");
                         print(b_collider.bounds.size + " Before");
                         
-                        gameObject.transform.localScale += new Vector3(x/10,x/10,x/10);
-                        cam.GetComponent<PlayerCamera>().distFromPlayer += x;
+                        gameObject.transform.localScale += new Vector3(x,x,x);
+                        cam.GetComponent<PlayerCamera>().distFromPlayer += x *2;
                     }
                     else
                     {
@@ -196,19 +196,19 @@ public class P_Movement : MonoBehaviour
                         //Play Shringin SFX
                         Destroy(c.gameObject);
                         print(b_collider.bounds.size + " Before");
-                        gameObject.transform.localScale += new Vector3(-x/8, -x/8, -x/8);
-                        cam.GetComponent<PlayerCamera>().distFromPlayer -= x;
+                        gameObject.transform.localScale += new Vector3(-x, -x, -x);
+                        cam.GetComponent<PlayerCamera>().distFromPlayer -= x * 2;
                     }
                 }
-                else
-                    //Bounce Player
-                    //Player Can't Eat Animation
-                    print("Can't Eat, To wide!");
-            }
-            else
-                //Bounce Player
-                //Player Can't Eat Animation
-                print("Can't Eat, To tall!");
+                //else
+                //    //Bounce Player
+                //    //Player Can't Eat Animation
+                //    print("Can't Eat, To wide!");
+            //}
+            //else
+            //    //Bounce Player
+            //    //Player Can't Eat Animation
+            //    print("Can't Eat, To tall!");
         }
     }
     private void OnTriggerExit(Collider other)

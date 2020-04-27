@@ -19,7 +19,7 @@ public class B_Eatable : MonoBehaviour
     ParticleSystem[] powerUpParticles;
 
     BoxCollider player;
-    public int points;
+    public float points;
     int c_Choice;
     Transform b_Tran;
 
@@ -50,13 +50,13 @@ public class B_Eatable : MonoBehaviour
                 //powerUpParticles[3].Play();
                 break;
             case EatableType.tierOne:
-                points = 1;
+                points = 0.1f;
                 break;
             case EatableType.tierTwo:
-                points = 5;
+                points = 0.5f;
                 break;
             case EatableType.tierThree:
-                points = 10;
+                points = 1;
                 break;
             case EatableType.Test:
                
