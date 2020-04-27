@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 7183006677129296518}
   - component: {fileID: 4424264504826403256}
   - component: {fileID: 6858429395185583907}
+  - component: {fileID: 7036604435949769505}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -202,6 +203,22 @@ MonoBehaviour:
   b_Color: {fileID: 2100000, guid: 3ce8aded68e44524c953b31d05839d78, type: 2}
   rend: {fileID: 0}
   points: 0
+--- !u!114 &7036604435949769505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7183006677129296574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e441ba1b14e5a941a1a5d363dbf734c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxDistFromFloor: -0.2
+  whatIsFloor:
+    serializedVersion: 2
+    m_Bits: 2048
 --- !u!1 &7183006677431849920
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,7 +340,7 @@ SpringJoint:
   m_ConnectedBody: {fileID: 7183006677129296512}
   m_Anchor: {x: 0, y: 0.5, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.9300003, y: -0.37999994, z: -0.25}
+  m_ConnectedAnchor: {x: -0.9300003, y: -0.3799984, z: -0.25}
   serializedVersion: 2
   m_Spring: 0.1
   m_Damper: 0.2
@@ -488,7 +505,7 @@ SpringJoint:
   m_ConnectedBody: {fileID: 7183006677129296512}
   m_Anchor: {x: 0, y: 0.5, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.9499998, y: -0.37999994, z: 0.8000002}
+  m_ConnectedAnchor: {x: 0.95000076, y: -0.3799984, z: 0.7999878}
   serializedVersion: 2
   m_Spring: 10
   m_Damper: 0.2
@@ -652,7 +669,7 @@ SpringJoint:
   m_ConnectedBody: {fileID: 7183006677129296512}
   m_Anchor: {x: 0, y: 0.5, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.9499998, y: -0.37999994, z: -0.90999985}
+  m_ConnectedAnchor: {x: 0.95000076, y: -0.3799984, z: -0.91000366}
   serializedVersion: 2
   m_Spring: 0.1
   m_Damper: 0.2
@@ -786,7 +803,7 @@ SpringJoint:
   m_ConnectedBody: {fileID: 7183006677129296512}
   m_Anchor: {x: 0, y: 0.5, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.9300003, y: -0.37999994, z: 0.8000002}
+  m_ConnectedAnchor: {x: -0.9300003, y: -0.3799984, z: 0.7999878}
   serializedVersion: 2
   m_Spring: 10
   m_Damper: 0.2
@@ -920,7 +937,7 @@ SpringJoint:
   m_ConnectedBody: {fileID: 7183006677129296512}
   m_Anchor: {x: 0, y: 0.5, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.9499998, y: -0.37999994, z: -0.27999973}
+  m_ConnectedAnchor: {x: 0.95000076, y: -0.3799984, z: -0.27999878}
   serializedVersion: 2
   m_Spring: 0.1
   m_Damper: 0.2
@@ -1054,7 +1071,7 @@ SpringJoint:
   m_ConnectedBody: {fileID: 7183006677129296512}
   m_Anchor: {x: 0, y: 0.5, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.9300003, y: -0.37999994, z: -0.8999996}
+  m_ConnectedAnchor: {x: -0.9300003, y: -0.3799984, z: -0.8999939}
   serializedVersion: 2
   m_Spring: 0.1
   m_Damper: 0.2
@@ -1188,7 +1205,7 @@ SpringJoint:
   m_ConnectedBody: {fileID: 7183006677129296512}
   m_Anchor: {x: 0, y: 0.5, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0.9499998, y: -0.37999994, z: 0.3199997}
+  m_ConnectedAnchor: {x: 0.95000076, y: -0.3799984, z: 0.32000732}
   serializedVersion: 2
   m_Spring: 0.1
   m_Damper: 0.2
@@ -1322,7 +1339,7 @@ SpringJoint:
   m_ConnectedBody: {fileID: 7183006677129296512}
   m_Anchor: {x: 0, y: 0.5, z: 0}
   m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: -0.9300003, y: -0.37999994, z: 0.3199997}
+  m_ConnectedAnchor: {x: -0.9300003, y: -0.3799984, z: 0.32000732}
   serializedVersion: 2
   m_Spring: 0.1
   m_Damper: 0.2

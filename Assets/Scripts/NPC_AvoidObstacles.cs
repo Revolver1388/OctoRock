@@ -21,7 +21,7 @@ public class NPC_AvoidObstacles : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        rbody.velocity = moveDir * moveForce;
+        rbody.AddForce(moveDir * moveForce);
 
 
         if (Physics.Raycast(transform.position, transform.forward, maxDistFromObstacle, whatIsObstacle))

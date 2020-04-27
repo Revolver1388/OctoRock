@@ -19,9 +19,9 @@ TagManager:
   - Arms
   - Obstacle
   - Floor
-  - 
-  - 
-  - 
+  - TrafficFenceLeft
+  - TrafficFenceRight
+  - Vehicle
   - 
   - 
   - 
