@@ -36,10 +36,10 @@ public class LevelStart : MonoBehaviour
     {
         fadeIn.transform.Rotate(fadeIn_Rotation * fadeIn_RotationSpeed * Time.deltaTime);
         StartCoroutine(WaitForStart());
-        t_Score.text = "Score: " + $"{Score(l_Time, l_MTime)}";
-        if (Score(l_Time, l_MTime) > PlayerPrefs.GetFloat("Best Score", highScore))
+        t_Score.text = "Score: " + $"{Score(player.score)}";
+        if (Score(Score(player.score)) > PlayerPrefs.GetFloat("Best Score", highScore))
         {
-            highScore = Mathf.Round(Score(l_Time, l_MTime));
+            highScore = Mathf.Round(Score(Score(player.score)));
             PlayerPrefs.SetFloat("Best Score", highScore);
             PlayerPrefs.Save();
         }
@@ -72,7 +72,7 @@ public class LevelStart : MonoBehaviour
     public IEnumerator GameOver()
     {
 
-        gameMan.gameOver = true;
+        gameMan.gameWin = true;
         yield return new WaitForSeconds(2);
         SceneManager.LoadSceneAsync(0);
         SceneManager.UnloadSceneAsync(1);
@@ -104,9 +104,9 @@ void Nullifier()
 }
 
 
-public float Score(float r, float rm)
+public float Score(float r)
 {
-    return Mathf.Round((r / rm) * 10);
+    return Mathf.Round((r) * 10);
 }
 
 void Hurry()

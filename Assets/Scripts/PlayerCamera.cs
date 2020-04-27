@@ -94,7 +94,21 @@ public class PlayerCamera : MonoBehaviour
             c_FOV = main.fieldOfView;
         }
         distFromPlayer = UpDownCam(invY);
-        camDist = CameraRaycast(distFromPlayer);
+        //camDist = CameraRaycast(distFromPlayer);
+        if (Player.GetComponent<BoxCollider>().bounds.size.y < 0.5f) distFromPlayer = 10;
+        else if (Player.GetComponent<BoxCollider>().bounds.size.y >= 0.5f && Player.GetComponent<BoxCollider>().bounds.size.y < 1) distFromPlayer = 20;
+        else if (Player.GetComponent<BoxCollider>().bounds.size.y >= 1 && Player.GetComponent<BoxCollider>().bounds.size.y < 1.5) distFromPlayer = 30;
+        else if (Player.GetComponent<BoxCollider>().bounds.size.y >= 1.5f && Player.GetComponent<BoxCollider>().bounds.size.y < 2) distFromPlayer = 40;
+        else if (Player.GetComponent<BoxCollider>().bounds.size.y >= 2f && Player.GetComponent<BoxCollider>().bounds.size.y < 2.5f) distFromPlayer = 50;
+        else if (Player.GetComponent<BoxCollider>().bounds.size.y >= 2.5f && Player.GetComponent<BoxCollider>().bounds.size.y < 3) distFromPlayer = 60;
+        else if (Player.GetComponent<BoxCollider>().bounds.size.y >= 3 && Player.GetComponent<BoxCollider>().bounds.size.y < 3.5f) distFromPlayer = 70;
+        else if (Player.GetComponent<BoxCollider>().bounds.size.y >= 3.5f && Player.GetComponent<BoxCollider>().bounds.size.y < 4) distFromPlayer = 80;
+        else if (Player.GetComponent<BoxCollider>().bounds.size.y >= 4f && Player.GetComponent<BoxCollider>().bounds.size.y < 4.5f) distFromPlayer = 90;
+        else if (Player.GetComponent<BoxCollider>().bounds.size.y >= 4.5f) distFromPlayer = 100;
+
+
+
+        camDist = distFromPlayer;
         //camDist = Player.GetComponent<BoxCollider>().bounds.size.y + 10;
     }
     private void LateUpdate()
