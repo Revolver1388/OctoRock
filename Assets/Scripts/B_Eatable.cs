@@ -70,7 +70,7 @@ public class B_Eatable : MonoBehaviour
     {
         
 
-        if (GetComponent<BoxCollider>().bounds.size.y < player.bounds.size.y ) rend.material.color = colours[c_Choice];
+        if (b_collider.bounds.size.y < player.bounds.size.y ) rend.material.color = colours[c_Choice];
         else
             rend.material.color = colours[5];
 

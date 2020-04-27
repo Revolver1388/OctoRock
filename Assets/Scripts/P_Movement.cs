@@ -29,7 +29,7 @@ public class P_Movement : MonoBehaviour
     [SerializeField] bool shoot;
     Renderer rend;
     Color[] colours = { Color.red, Color.blue, Color.green, Color.yellow, Color.white };
-    int score;
+    public int score;
     // Start is called before the first frame update    
     void Start()
     {
@@ -185,7 +185,6 @@ public class P_Movement : MonoBehaviour
                         print(b_collider.bounds.size + " Before");
                         
                         gameObject.transform.localScale += new Vector3(x/10,x/10,x/10);
-                       
                         cam.GetComponent<PlayerCamera>().distFromPlayer += x;
                     }
                     else

@@ -20,6 +20,7 @@ public class LevelStart : MonoBehaviour
     public float l_MTime;
    public bool gameOver = false;
     public GameObject InGameUI;
+    P_Movement player;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +28,7 @@ public class LevelStart : MonoBehaviour
         fadeIn.CrossFadeAlpha(0, 2, false);
         start = t_Size.transform.position;
         gameOver = false;
+        player = FindObjectOfType<P_Movement>();
     }
 
     // Update is called once per frame
@@ -34,10 +36,10 @@ public class LevelStart : MonoBehaviour
     {
         fadeIn.transform.Rotate(fadeIn_Rotation * fadeIn_RotationSpeed * Time.deltaTime);
         StartCoroutine(WaitForStart());
-        t_Score.text = "Score: " + $"{Score(l_Time, l_MTime,1,1)}";
-        if (Score(l_Time, l_MTime,1,1) > PlayerPrefs.GetFloat("Best Score", highScore))
+        t_Score.text = "Score: " + $"{Score(l_Time, l_MTime)}";
+        if (Score(l_Time, l_MTime) > PlayerPrefs.GetFloat("Best Score", highScore))
         {
-            highScore = Mathf.Round(Score(l_Time, l_MTime, 1, 1));
+            highScore = Mathf.Round(Score(l_Time, l_MTime));
             PlayerPrefs.SetFloat("Best Score", highScore);
             PlayerPrefs.Save();
         }
@@ -102,9 +104,9 @@ void Nullifier()
 }
 
 
-public float Score(float x, float y, float r, float rm)
+public float Score(float r, float rm)
 {
-    return Mathf.Round((((x % 60) / (y / 60)) * (r / rm)) * 10);
+    return Mathf.Round((r / rm) * 10);
 }
 
 void Hurry()
