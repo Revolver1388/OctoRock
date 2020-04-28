@@ -20,8 +20,10 @@ public class NPC_Hop : MonoBehaviour
     {
         if (Physics.Raycast(transform.position, -transform.up, maxDistFromFloor, whatIsFloor))
         {
-            Debug.Log("HOP!");
+            //Debug.Log("HOP!");
             rbody.AddForce(transform.up * jumpForce);
         }
+
+
     }
 }
