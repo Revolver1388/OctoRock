@@ -682,10 +682,10 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -3846018093981099296, guid: 7011d1cd221dc1c47a1fea549ca1cfe6, type: 3}
-  - {fileID: -6478536213147159724, guid: 7011d1cd221dc1c47a1fea549ca1cfe6, type: 3}
-  - {fileID: 4874126678125670354, guid: 7011d1cd221dc1c47a1fea549ca1cfe6, type: 3}
-  - {fileID: 4637519048616892231, guid: 7011d1cd221dc1c47a1fea549ca1cfe6, type: 3}
+  - {fileID: 2100000, guid: f28886f152d16454a9b4814e6dd02203, type: 2}
+  - {fileID: 2100000, guid: 8595cd7a3d692cb46ad4fe70fb523548, type: 2}
+  - {fileID: 2100000, guid: 2708e630d71c76b4393865d2701fc5d9, type: 2}
+  - {fileID: 2100000, guid: d5a9bc5d02f69f0439f9b30659657cb1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -802,7 +802,7 @@ MonoBehaviour:
   shoot: 0
   rend: {fileID: 1446120078378730413}
   growthSpeed: 0
-  container: {fileID: 0}
+  container: {fileID: 5257937662885620073}
   score: 0
   isMultiColor: 0
 --- !u!114 &7977957402119273041
