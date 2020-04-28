@@ -32,10 +32,12 @@ public class P_Movement : MonoBehaviour
     AudioSource mein_Audio;
     AudioManager audio_Man;
     [SerializeField] float growthSpeed;
+    [SerializeField] GameObject container;
     Color[] colours = { Color.red, Color.blue, Color.green, Color.yellow, Color.white };
     public float score;
     int i;
     public bool isMultiColor = false;
+    bool canMove = true;
     void Start()
     {
         i = Random.Range(0, colours.Length);
@@ -54,6 +56,8 @@ public class P_Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Eat")) canMove = false;
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle")) canMove = true;
         if (b_collider.bounds.size.y <= .02f) lvl_Man.gameOver = true;
         switch (thisState)
         {
@@ -105,34 +109,37 @@ public class P_Movement : MonoBehaviour
                 }
                 break;
             case WalkState.WASD:
-                p_Input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
-                Vector3 camF = cam.transform.TransformDirection(Vector3.forward);
-                Vector3 camR = cam.transform.TransformDirection(Vector3.right);
-                camF.y = 0;
-                camR.y = 0;
-                camF = camF.normalized;
-                camR = camR.normalized;
-                //anim.SetFloat("Forward", p_Input.z);
-                //anim.SetFloat("LeftRight", p_Input.x);
-                anim.SetBool("isMoving", isMoving);
-
-                transform.position += (camF * p_Input.z + camR * p_Input.x) * p_MoveSpeed * Time.deltaTime;
-                //GetComponentInParent<Transform>().transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.right, camF * p_Input.z + camR * p_Input.x, 2.5f * Time.fixedDeltaTime, 0.0f));
-                
-                //GetComponentInParent<Transform>().transform.Rotate(new Vector3(0, 0, Input.GetAxis("MouseX")) * rotateSpeed * Time.smoothDeltaTime, Space.Self);
-                //rb.MovePosition(transform.position + p_Input * p_MoveSpeed * Time.deltaTime);
-                if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) isMoving = true; 
-                else if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0) isMoving = false;
-
-                if (isMoving && mein_Audio.isPlaying == false) { mein_Audio.Play(); }
-                if (!isMoving) mein_Audio.Stop();
-                foreach (var arm in arms)
+                if (canMove)
                 {
-                    arm.SetActive(false);
-                }
-                foreach (var arm in f_Arms)
-                {
-                    arm.SetActive(false);
+                    p_Input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+                    Vector3 camF = cam.transform.TransformDirection(Vector3.forward);
+                    Vector3 camR = cam.transform.TransformDirection(Vector3.right);
+                    camF.y = 0;
+                    camR.y = 0;
+                    camF = camF.normalized;
+                    camR = camR.normalized;
+                    //anim.SetFloat("Forward", p_Input.z);
+                    //anim.SetFloat("LeftRight", p_Input.x);
+                    anim.SetBool("isMoving", isMoving);
+
+                    transform.position += (camF * p_Input.z + camR * p_Input.x) * p_MoveSpeed * Time.deltaTime;
+                    //GetComponentInParent<Transform>().transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.right, camF * p_Input.z + camR * p_Input.x, 2.5f * Time.fixedDeltaTime, 0.0f));
+
+                    //transform.Rotate(new Vector3(0, 0, Input.GetAxis("MouseX")) * rotateSpeed * Time.smoothDeltaTime, Space.Self);
+                    //rb.MovePosition(transform.position + p_Input * p_MoveSpeed * Time.deltaTime);
+                    if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) isMoving = true;
+                    else if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0) isMoving = false;
+
+                    if (isMoving && mein_Audio.isPlaying == false) { mein_Audio.Play(); }
+                    if (!isMoving) mein_Audio.Stop();
+                    foreach (var arm in arms)
+                    {
+                        arm.SetActive(false);
+                    }
+                    foreach (var arm in f_Arms)
+                    {
+                        arm.SetActive(false);
+                    }
                 }
                 break;
             case WalkState.TPerson:
@@ -188,6 +195,7 @@ public class P_Movement : MonoBehaviour
     {
         if (c.GetComponent<B_Eatable>())
         {
+            anim.SetTrigger("Eating");
             float x = c.GetComponent<B_Eatable>().points;
             if (c.GetComponent<B_Eatable>().e_Type == B_Eatable.EatableType.color)
             {
@@ -213,7 +221,7 @@ public class P_Movement : MonoBehaviour
             {
                 if (!isMultiColor)
                 {
-                    if (c.GetComponent<B_Eatable>().b_size.y <= b_collider.bounds.size.y && b_collider.bounds.size.y <= c.GetComponent<B_Eatable>().b_size.y * 10)
+                    if (c.GetComponent<B_Eatable>().b_size.y <= b_collider.bounds.size.y/* && b_collider.bounds.size.y <= c.GetComponent<B_Eatable>().b_size.y * 10*/)
                     {
                         //if (c.GetComponent<B_Eatable>().b_size.x <= b_collider.bounds.size.x)
                         //{
@@ -231,7 +239,8 @@ public class P_Movement : MonoBehaviour
                             print("YUMMMMM!");
                             print(b_collider.bounds.size + " Before");
                             audio_Man.PlayOneShotByIndex(Random.Range(0, audio_Man.eat.Length), audio_Man.sfxSource);
-                            gameObject.transform.localScale += new Vector3(x, x, x);
+                            container.transform.localScale += new Vector3(x, x, x);
+                            anim.SetTrigger("Grow");
                             //gameObject.transform.localScale += new Vector3(x, x, x);
 
                         }
@@ -244,7 +253,7 @@ public class P_Movement : MonoBehaviour
                             //Play Shringin SFX
                             Destroy(c.gameObject);
                             print(b_collider.bounds.size + " Before");
-                            gameObject.transform.localScale += new Vector3(-x, -x, -x);
+                            container.transform.localScale += new Vector3(-x, -x, -x);
                         }
                     }
                 }
