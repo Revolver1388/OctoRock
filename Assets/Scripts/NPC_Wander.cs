@@ -41,7 +41,10 @@ public class NPC_Wander : MonoBehaviour
 
             StartCoroutine(ChangeDirectionTimerHelper());
             Debug.Log("Changing direction after wait");
-        }       
+        }
+
+        transform.rotation = Quaternion.LookRotation(moveDir);
+
     }
 
     private IEnumerator ChangeDirectionTimerHelper()

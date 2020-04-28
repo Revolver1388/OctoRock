@@ -47,7 +47,7 @@ public class TrafficBehavior : MonoBehaviour
 
         if (Physics.Raycast(transform.position, moveDir, maxDistFromObstacle, whatIsObstacle))
         {
-            Debug.Log("Raycast trigger");
+            //Debug.Log("Raycast trigger");
             if (turnDirection == "left")
             {
                 moveDir = -transform.right;
