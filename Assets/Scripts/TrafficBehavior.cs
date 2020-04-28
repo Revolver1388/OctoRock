@@ -80,10 +80,10 @@ public class TrafficBehavior : MonoBehaviour
 
     private IEnumerator SlowDownWait()
     {
-        
-        moveForce = moveForce / 2;
-        yield return new WaitForSeconds(1);
-        moveForce = moveForce * 2;
+        float tempfloat = moveForce;
+        moveForce = 0;
+        yield return new WaitForSeconds(2);
+        moveForce = tempfloat;
     }
 
     private IEnumerator TurnWait()
