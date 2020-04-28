@@ -8,13 +8,14 @@ using UnityEngine;
 
 public class B_Eatable : MonoBehaviour
 {
-    public enum EatableType { color, multiColor, Speed, Shield, tierOne, tierTwo, tierThree, Test};
+    public enum EatableType { color, multiColor, Speed, Shield, tierOne, tierTwo, tierThree};
     public EatableType e_Type;
     BoxCollider b_collider;
     public Vector3 b_size;
     public Material b_Color;
     public Renderer rend;
-     Color[] colours = { Color.red, Color.blue, Color.green, Color.yellow, Color.white, Color.white};
+    Renderer[] children;
+     Color[] colours = { Color.red, Color.blue, Color.green, Color.yellow, Color.white, Color.magenta};
     
     ParticleSystem[] powerUpParticles;
 
@@ -25,23 +26,35 @@ public class B_Eatable : MonoBehaviour
 
     void Start()
     {
-        b_collider = GetComponent<BoxCollider>();
-        b_size = b_collider.bounds.size;
-        c_Choice = Random.Range(0, colours.Length);
-        player = FindObjectOfType<P_Movement>().gameObject.GetComponent<BoxCollider>();
+  
 
         if (!rend)
             rend = gameObject.GetComponent<Renderer>();
+        player = FindObjectOfType<P_Movement>().gameObject.GetComponent<BoxCollider>();
 
         colours[5] = rend.material.color;
 
         switch (e_Type)
         {
             case EatableType.color:
+                StartCoroutine(ChangeColor(5, 10));
+                rend.material.color = colours[c_Choice];
+                children = GetComponentsInChildren<Renderer>();
+                foreach (var child in children)
+                {
+                    child.material.color = colours[c_Choice];
+                }
              //   powerUpParticles[0].Play();
                 break;
-            case EatableType.multiColor:
-               // powerUpParticles[1].Play();
+            case EatableType.multiColor:        
+                children = GetComponentsInChildren<Renderer>();
+                rend.material.color = colours[0];
+                children[1].material.color = colours[1];
+                children[2].material.color = colours[2];
+                children[3].material.color = colours[3];
+                children[0].material.color = colours[4];
+                StartCoroutine(ChangeColor(.04f,0.07f));
+                // powerUpParticles[1].Play();
                 break;
             case EatableType.Speed:
                 //powerUpParticles[2].Play();
@@ -50,29 +63,80 @@ public class B_Eatable : MonoBehaviour
                 //powerUpParticles[3].Play();
                 break;
             case EatableType.tierOne:
-                points = 0.1f;
+                b_collider = GetComponent<BoxCollider>();
+                b_size = b_collider.bounds.size;
+                c_Choice = Random.Range(0, colours.Length);
+                points = .1f;
                 break;
             case EatableType.tierTwo:
-                points = 0.5f;
+                b_collider = GetComponent<BoxCollider>();
+                b_size = b_collider.bounds.size;
+                c_Choice = Random.Range(0, colours.Length);
+                points = .5f;
                 break;
             case EatableType.tierThree:
-                points = 1;
-                break;
-            case EatableType.Test:
-               
+                b_collider = GetComponent<BoxCollider>();
+                b_size = b_collider.bounds.size;
+                c_Choice = Random.Range(0, colours.Length);
+                points = 1.0f;
                 break;
             default:
                 break;
         }
     
     }
-    private void Update()
+    IEnumerator ChangeColor(float i, float j)
     {
-        
-
-        if (b_collider.bounds.size.y < player.bounds.size.y ) rend.material.color = colours[c_Choice];
-        else
-            rend.material.color = colours[5];
-
+        c_Choice = Random.Range(0, colours.Length);
+        yield return new WaitForSeconds(Random.Range(i,j));
+        StartCoroutine(ChangeColor(i,j));
+    }
+    private void Update()
+    {                
+        switch (e_Type)
+        {
+            case EatableType.color:               
+                rend.material.color = colours[c_Choice];
+                children = GetComponentsInChildren<Renderer>();
+                foreach (var child in children)
+                {
+                    child.material.color = colours[c_Choice];
+                }
+                if (b_collider.bounds.size.y < player.bounds.size.y / 2 && player.bounds.size.y > b_collider.size.y * 4)
+                {
+                    GetComponentInParent<GameObject>().gameObject.SetActive(false);
+                }
+                    break;
+            case EatableType.multiColor:
+                rend.material.color = colours[c_Choice];
+                break;
+            case EatableType.Speed:
+                break;
+            case EatableType.Shield:
+                break;
+            case EatableType.tierOne:
+                if (b_collider.bounds.size.y < player.bounds.size.y) rend.material.color = colours[c_Choice];
+                else if (b_collider.bounds.size.y > player.bounds.size.y)
+                    rend.material.color = colours[5];
+                else if (b_collider.bounds.size.y < player.bounds.size.y / 2 && player.bounds.size.y > b_collider.size.y * 4)
+                    rend.material.color = colours[5];
+                break;
+            case EatableType.tierTwo:
+                if (b_collider.bounds.size.y < player.bounds.size.y) rend.material.color = colours[c_Choice];
+                else if (b_collider.bounds.size.y > player.bounds.size.y)
+                    rend.material.color = colours[5];
+                else if (b_collider.bounds.size.y < player.bounds.size.y / 2 && player.bounds.size.y > b_collider.size.y * 4)
+                    rend.material.color = colours[5];
+                break;
+            case EatableType.tierThree:
+                if (b_collider.bounds.size.y < player.bounds.size.y) rend.material.color = colours[c_Choice];
+                else if (b_collider.bounds.size.y > player.bounds.size.y)
+                    rend.material.color = colours[5];
+                else if (b_collider.bounds.size.y < player.bounds.size.y / 2 && player.bounds.size.y > b_collider.size.y * 4)
+                    rend.material.color = colours[5];
+                break;
+            default:
+                break;
+        }
     }
 }

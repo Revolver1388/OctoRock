@@ -21,11 +21,13 @@ public class AudioManager : MonoBehaviour
 
     #region AudioSources
     [SerializeField] AudioSource levelMusic;
-    [SerializeField] AudioSource sfxSource;
+    [SerializeField] public AudioSource sfxSource;
+
     #endregion
 
     #region Audio Clips
     public SfxClip[] sfx;
+    public SfxClip[] eat;
     public LevelMusic[] lvl_Music;
     #endregion
 
@@ -62,6 +64,11 @@ public class AudioManager : MonoBehaviour
 
     public void PlayOneShotByName(string sound)
     { foreach (SfxClip clip in sfx) if (clip.name == sound) sfxSource.PlayOneShot(clip.clip); }
+
+    public void PlayOneShotByIndex(int index, AudioSource source)
+    {
+        source.PlayOneShot(eat[index].clip);
+    }
 
     void FadeMusic()
     {

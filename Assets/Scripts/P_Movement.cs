@@ -31,11 +31,14 @@ public class P_Movement : MonoBehaviour
     bool isMoving = false;
     AudioSource mein_Audio;
     AudioManager audio_Man;
+    [SerializeField] float growthSpeed;
     Color[] colours = { Color.red, Color.blue, Color.green, Color.yellow, Color.white };
     public float score;
-
+    int i;
+    public bool isMultiColor = false;
     void Start()
     {
+        i = Random.Range(0, colours.Length);
         cam = Camera.main;
         rend = GetComponent<Renderer>();
         rb = GetComponent<Rigidbody>();
@@ -44,7 +47,8 @@ public class P_Movement : MonoBehaviour
         lvl_Man = FindObjectOfType<LevelStart>();
         audio_Man = FindObjectOfType<AudioManager>();
         mein_Audio = GetComponent<AudioSource>();
-        StartCoroutine(ChangeColor());
+       // StartCoroutine(ChangeColor());
+        rend.material.color = colours[i];
     }
 
     // Update is called once per frame
@@ -109,11 +113,13 @@ public class P_Movement : MonoBehaviour
                 camF = camF.normalized;
                 anim.SetFloat("Forward", p_Input.z);
                 anim.SetFloat("LeftRight", p_Input.x);
-          
+                //anim.SetBool("isMoving", isMoving);
+      
                 transform.position += (camF * p_Input.z + camR * p_Input.x) * p_MoveSpeed * Time.deltaTime;
                 //rb.MovePosition(transform.position + p_Input * p_MoveSpeed * Time.deltaTime);
-                if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) isMoving = true;
+                if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) isMoving = true; 
                 else if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0) isMoving = false;
+                
                 if (isMoving && mein_Audio.isPlaying == false) mein_Audio.Play();
                 if (!isMoving) mein_Audio.Stop();
                 foreach (var arm in arms)
@@ -138,11 +144,12 @@ public class P_Movement : MonoBehaviour
         }
     }
 
-    IEnumerator ChangeColor()
+    IEnumerator ChangeColor(float i, float j)
     {
-        yield return new WaitForSeconds(Random.Range(5, 15));
+        yield return new WaitForSeconds(Random.Range(i,j));
         rend.material.color = colours[Random.Range(0, colours.Length)];
-        StartCoroutine(ChangeColor());
+        if(isMultiColor)
+        StartCoroutine(ChangeColor(i,j));
     }
     void toggleBool(bool x)
     {
@@ -168,55 +175,102 @@ public class P_Movement : MonoBehaviour
         }
     }
 
+    IEnumerator MultiColored()
+    {
+        yield return new WaitForSeconds(10);
+        isMultiColor = false;
+    }
     private void OnTriggerEnter(Collider c)
     {
         if (c.GetComponent<B_Eatable>())
         {
             float x = c.GetComponent<B_Eatable>().points;
-
-            if (c.GetComponent<B_Eatable>().b_size.y <= b_collider.bounds.size.y)
+            if (c.GetComponent<B_Eatable>().e_Type == B_Eatable.EatableType.color)
             {
-                //if (c.GetComponent<B_Eatable>().b_size.x <= b_collider.bounds.size.x)
-                //{
-                    if (c.GetComponent<B_Eatable>().rend.material.color == rend.material.color)
-                    {
-                        score += x;
-                        
-                        //Play SFX
-                        //Play Animation
+                rend.material.color = c.GetComponent<B_Eatable>().rend.material.color;
+                //Destroy(c.gameObject);
+            }
+            else if (c.GetComponent<B_Eatable>().e_Type == B_Eatable.EatableType.multiColor)
+            {
+                isMultiColor = true;
+                StartCoroutine(MultiColored());
+                StartCoroutine(ChangeColor(.04f, .07f));
 
-                        Destroy(c.gameObject);
-                        //Play CHomp Animation
-                        //Play Chomp SFX
-                        //Play Chomp VFX
-                        print("YUMMMMM!");
-                        print(b_collider.bounds.size + " Before");
-                        
-                        gameObject.transform.localScale += new Vector3(x,x,x);
-                        cam.GetComponent<PlayerCamera>().distFromPlayer += x *2;
-                    }
-                    else if (c.GetComponent<B_Eatable>().rend.material.color != rend.material.color)
+            }
+            else if (c.GetComponent<B_Eatable>().e_Type == B_Eatable.EatableType.Shield)
+            {
+
+            }
+            else if (c.GetComponent<B_Eatable>().e_Type == B_Eatable.EatableType.Speed)
+            {
+
+            }
+            else
+            {
+                if (!isMultiColor)
                 {
-                        print("Can't Eat, Wrong Color! YUK! PUKING!! SHRINKING!!!");
-                        score -= c.GetComponent<B_Eatable>().points;
-                        //Play Vomit Animation
-                        //Play Shrinking VFX
-                        //Play Shringin SFX
-                        Destroy(c.gameObject);
-                        print(b_collider.bounds.size + " Before");
-                        gameObject.transform.localScale += new Vector3(-x, -x, -x);
-                        cam.GetComponent<PlayerCamera>().distFromPlayer -= x * 2;
+                    if (c.GetComponent<B_Eatable>().b_size.y <= b_collider.bounds.size.y && b_collider.bounds.size.y <= c.GetComponent<B_Eatable>().b_size.y * 10)
+                    {
+                        //if (c.GetComponent<B_Eatable>().b_size.x <= b_collider.bounds.size.x)
+                        //{
+                        if (c.GetComponent<B_Eatable>().rend.material.color == rend.material.color)
+                        {
+                            score += x * 10;
+
+                            //Play SFX
+                            //Play Animation
+
+                            Destroy(c.gameObject);
+                            //Play CHomp Animation
+                            //Play Chomp SFX
+                            //Play Chomp VFX
+                            print("YUMMMMM!");
+                            print(b_collider.bounds.size + " Before");
+                            audio_Man.PlayOneShotByIndex(Random.Range(0, audio_Man.eat.Length), audio_Man.sfxSource);
+                            gameObject.transform.localScale += new Vector3(x, x, x);
+                            //gameObject.transform.localScale += new Vector3(x, x, x);
+
+                        }
+                        else if (c.GetComponent<B_Eatable>().rend.material.color != rend.material.color)
+                        {
+                            print("Can't Eat, Wrong Color! YUK! PUKING!! SHRINKING!!!");
+                            score -= c.GetComponent<B_Eatable>().points;
+                            //Play Vomit Animation
+                            //Play Shrinking VFX
+                            //Play Shringin SFX
+                            Destroy(c.gameObject);
+                            print(b_collider.bounds.size + " Before");
+                            gameObject.transform.localScale += new Vector3(-x, -x, -x);
+                        }
                     }
+                }
+                else
+                {
+                    score += x * 10;
+
+                    //Play SFX
+                    //Play Animation
+
+                    Destroy(c.gameObject);
+                    //Play CHomp Animation
+                    //Play Chomp SFX
+                    //Play Chomp VFX
+                    print("YUMMMMM!");
+                    print(b_collider.bounds.size + " Before");
+                    audio_Man.PlayOneShotByIndex(Random.Range(0, audio_Man.eat.Length), audio_Man.sfxSource);
+                    gameObject.transform.localScale += new Vector3(x, x, x);
+                    //gameObject.transform.localScale += new Vector3(x, x, x);
                 }
                 //else
                 //    //Bounce Player
                 //    //Player Can't Eat Animation
                 //    print("Can't Eat, To wide!");
-            //}
-            //else
-            //    //Bounce Player
-            //    //Player Can't Eat Animation
-            //    print("Can't Eat, To tall!");
+                //}
+                //else
+                //    //Bounce Player
+                //    //Player Can't Eat Animation
+                //    print("Can't Eat, To tall!");
+            }
         }
     }
     private void OnTriggerExit(Collider other)
