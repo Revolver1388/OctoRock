@@ -115,4 +115,7 @@ void Hurry()
         t_Text.color = Color.Lerp(Color.green, Color.red, Mathf.PingPong(Time.time, 1f));
     }
 
+
+
+
 }
