@@ -92,7 +92,7 @@ public class StartMenu : MonoBehaviour
 
     public void OnStartButton()
     {
-        SceneManager.LoadScene("MattTestTown");
+        SceneManager.LoadScene("MainScene");
     }
 
     public void OnQuitButton()
