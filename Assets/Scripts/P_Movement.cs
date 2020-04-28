@@ -28,9 +28,12 @@ public class P_Movement : MonoBehaviour
     BoxCollider b_collider;
     [SerializeField] bool shoot;
     Renderer rend;
+    bool isMoving = false;
+    AudioSource mein_Audio;
+    AudioManager audio_Man;
     Color[] colours = { Color.red, Color.blue, Color.green, Color.yellow, Color.white };
     public float score;
-    // Start is called before the first frame update    
+
     void Start()
     {
         cam = Camera.main;
@@ -39,6 +42,8 @@ public class P_Movement : MonoBehaviour
         anim = GetComponent<Animator>();
         b_collider = GetComponent<BoxCollider>();
         lvl_Man = FindObjectOfType<LevelStart>();
+        audio_Man = FindObjectOfType<AudioManager>();
+        mein_Audio = GetComponent<AudioSource>();
         StartCoroutine(ChangeColor());
     }
 
@@ -73,7 +78,7 @@ public class P_Movement : MonoBehaviour
                     //if (Input.GetKey(KeyCode.F)) { arms[3].transform.position += transform.forward * 1 * Time.deltaTime; }
                     if (Input.GetMouseButton(0)) { MouseFunctions(f_Arms[0]); TurnOffArms(true); }
                     else if (Input.GetMouseButtonUp(0)) TurnOffArms(false);
-            
+
                     //Left2
                     if (Input.GetKey(KeyCode.D)) { arms[2].transform.position += (transform.forward + (-transform.right / 6)) * 1 * Time.deltaTime; }
                     //Left3
@@ -94,9 +99,9 @@ public class P_Movement : MonoBehaviour
                     if (Input.GetKey(KeyCode.Semicolon)) { arms[5].transform.position += transform.forward * 1 * Time.deltaTime; }
                     #endregion
                 }
-                    break;
-            case WalkState.WASD:         
-                p_Input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+                break;
+            case WalkState.WASD:
+                p_Input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
                 Vector3 camF = cam.transform.TransformDirection(Vector3.forward);
                 Vector3 camR = cam.transform.TransformDirection(Vector3.right);
                 camF.y = 0;
@@ -104,10 +109,13 @@ public class P_Movement : MonoBehaviour
                 camF = camF.normalized;
                 anim.SetFloat("Forward", p_Input.z);
                 anim.SetFloat("LeftRight", p_Input.x);
-
+          
                 transform.position += (camF * p_Input.z + camR * p_Input.x) * p_MoveSpeed * Time.deltaTime;
                 //rb.MovePosition(transform.position + p_Input * p_MoveSpeed * Time.deltaTime);
-  
+                if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) isMoving = true;
+                else if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0) isMoving = false;
+                if (isMoving && mein_Audio.isPlaying == false) mein_Audio.Play();
+                if (!isMoving) mein_Audio.Stop();
                 foreach (var arm in arms)
                 {
                     arm.SetActive(false);
@@ -121,8 +129,8 @@ public class P_Movement : MonoBehaviour
                 break;
             case WalkState.Controller:
                 if (Input.GetKey(KeyCode.F)) { arms[3].transform.position += transform.forward * 1 * Time.deltaTime; arms[2].transform.position += (transform.forward + (-transform.right / 4)) * 1 * Time.deltaTime; }
-                if (Input.GetKey(KeyCode.S)) { arms[1].transform.position += (transform.forward + -transform.right/8) * 1 * Time.deltaTime; arms[0].transform.position += transform.forward * 1 * Time.deltaTime; }
-                if (Input.GetKey(KeyCode.J)) { arms[4].transform.position += transform.forward * 1 * Time.deltaTime; arms[5].transform.position += (transform.forward + transform.right/4) * 1 * Time.deltaTime; }
+                if (Input.GetKey(KeyCode.S)) { arms[1].transform.position += (transform.forward + -transform.right / 8) * 1 * Time.deltaTime; arms[0].transform.position += transform.forward * 1 * Time.deltaTime; }
+                if (Input.GetKey(KeyCode.J)) { arms[4].transform.position += transform.forward * 1 * Time.deltaTime; arms[5].transform.position += (transform.forward + transform.right / 4) * 1 * Time.deltaTime; }
                 if (Input.GetKey(KeyCode.L)) { arms[6].transform.position += (transform.forward + (transform.right / 8)) * 1 * Time.deltaTime; arms[7].transform.position += transform.forward * 1 * Time.deltaTime; }
                 break;
             default:
@@ -187,8 +195,8 @@ public class P_Movement : MonoBehaviour
                         gameObject.transform.localScale += new Vector3(x,x,x);
                         cam.GetComponent<PlayerCamera>().distFromPlayer += x *2;
                     }
-                    else
-                    {
+                    else if (c.GetComponent<B_Eatable>().rend.material.color != rend.material.color)
+                {
                         print("Can't Eat, Wrong Color! YUK! PUKING!! SHRINKING!!!");
                         score -= c.GetComponent<B_Eatable>().points;
                         //Play Vomit Animation
