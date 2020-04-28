@@ -2,13 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NPC_AvoidObstacles : MonoBehaviour
+public class NPC_Movement : MonoBehaviour
 {
-    public float moveForce = 0f;
+    public float jumpForce = 0f;
     private Rigidbody rbody;
+    public float maxDistFromFloor = 0;
+    public LayerMask whatIsFloor;
+    public float moveForce = 0f;
     public Vector3 moveDir;
     public LayerMask whatIsObstacle;
     public float maxDistFromObstacle;
+    public int changeDirectionTimer = 3;
+    private bool isCounting;
+    public bool variableSpeed;
+    public int maxSpeed;
+    private float randomDirMult;
 
     // Start is called before the first frame update
     void Start()
@@ -16,21 +24,49 @@ public class NPC_AvoidObstacles : MonoBehaviour
         rbody = GetComponent<Rigidbody>();
         moveDir = ChooseDirection();
         transform.rotation = Quaternion.LookRotation(moveDir);
+        isCounting = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        rbody.AddForce(moveDir * moveForce);
-
-
+        if (Physics.Raycast(transform.position, -transform.up, maxDistFromFloor, whatIsFloor))
+        {
+            //Debug.Log("HOP!");
+            rbody.AddForce(transform.up * jumpForce);            
+        }
         if (Physics.Raycast(transform.position, transform.forward, maxDistFromObstacle, whatIsObstacle))
         {
             Debug.Log("Change direction to avoid obstacle");
-            moveDir = ChooseDirection();
+            moveDir = moveDir * -1;
             transform.rotation = Quaternion.LookRotation(moveDir);
+            rbody.velocity = moveDir * moveForce;
         }
 
+
+        if (isCounting == false)
+        {
+            if (variableSpeed)
+            {
+                System.Random ran = new System.Random();
+                int i = ran.Next(1, maxSpeed);
+                moveForce = i;
+            }
+
+            StartCoroutine(ChangeDirectionTimerHelper());
+            Debug.Log("Changing direction after wait");
+            rbody.velocity = moveDir * moveForce;
+        }
+
+        transform.rotation = Quaternion.LookRotation(moveDir);
+    }
+
+    private IEnumerator ChangeDirectionTimerHelper()
+    {
+        isCounting = true;
+        yield return new WaitForSeconds(changeDirectionTimer);
+        moveDir = ChooseDirection();
+        isCounting = false;
     }
 
     Vector3 ChooseDirection()
@@ -38,8 +74,6 @@ public class NPC_AvoidObstacles : MonoBehaviour
         System.Random ran = new System.Random();
         int i = ran.Next(0, 7);
         Vector3 temp = new Vector3();
-
-
 
         if (i == 0)
         {

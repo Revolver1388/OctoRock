@@ -52,7 +52,7 @@ public class TrafficBehavior : MonoBehaviour
             {
                 moveDir = -transform.right;
                 recentTurns++;
-                if (recentTurns > 2)
+                if (recentTurns > 3)
                 {
                     recentTurns = 0;
                     StartCoroutine(TurnWait());
@@ -62,7 +62,7 @@ public class TrafficBehavior : MonoBehaviour
             {
                 moveDir = transform.right;
                 recentTurns++;
-                if (recentTurns > 2)
+                if (recentTurns > 3)
                 {
                     recentTurns = 0;
                     StartCoroutine(TurnWait());
