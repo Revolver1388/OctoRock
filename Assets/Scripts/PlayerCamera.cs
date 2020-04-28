@@ -105,7 +105,7 @@ public class PlayerCamera : MonoBehaviour
         else if (Player.GetComponent<BoxCollider>().bounds.size.y >= 3.5f && Player.GetComponent<BoxCollider>().bounds.size.y < 4) distFromPlayer = 80;
         else if (Player.GetComponent<BoxCollider>().bounds.size.y >= 4f && Player.GetComponent<BoxCollider>().bounds.size.y < 4.5f) distFromPlayer = 90;
         else if (Player.GetComponent<BoxCollider>().bounds.size.y >= 4.5f) distFromPlayer = 100;
-
+        else if (Player.GetComponent<BoxCollider>().bounds.size.y >= 30f) distFromPlayer = 200;
 
 
         camDist = distFromPlayer;

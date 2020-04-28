@@ -7,7 +7,7 @@ using UnityEngine;
 public class P_Movement : MonoBehaviour
 {
 
-    public enum WalkState { KeyCrawl, WASD, TPerson, Controller}
+    public enum WalkState { KeyCrawl, WASD, TPerson, Controller }
 
     public WalkState thisState;
     [SerializeField] Camera cam;
@@ -17,7 +17,7 @@ public class P_Movement : MonoBehaviour
     Rigidbody rb;
     [SerializeField] GameObject[] arms;
     [SerializeField] GameObject[] f_Arms;
-    [Range(1,20)]
+    [Range(1, 20)]
     [SerializeField] float armSpeed = 3;
     Vector3 p_Input;
 
@@ -27,7 +27,7 @@ public class P_Movement : MonoBehaviour
     [SerializeField] float p_MoveSpeed = 8;
     BoxCollider b_collider;
     [SerializeField] bool shoot;
-    Renderer rend;
+    [SerializeField] Renderer rend;
     bool isMoving = false;
     AudioSource mein_Audio;
     AudioManager audio_Man;
@@ -119,8 +119,8 @@ public class P_Movement : MonoBehaviour
                 //rb.MovePosition(transform.position + p_Input * p_MoveSpeed * Time.deltaTime);
                 if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) isMoving = true; 
                 else if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0) isMoving = false;
-                
-                if (isMoving && mein_Audio.isPlaying == false) mein_Audio.Play();
+
+                if (isMoving && mein_Audio.isPlaying == false) { mein_Audio.Play(); }
                 if (!isMoving) mein_Audio.Stop();
                 foreach (var arm in arms)
                 {

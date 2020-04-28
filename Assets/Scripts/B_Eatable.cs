@@ -31,6 +31,7 @@ public class B_Eatable : MonoBehaviour
         if (!rend)
             rend = gameObject.GetComponent<Renderer>();
         player = FindObjectOfType<P_Movement>().gameObject.GetComponent<BoxCollider>();
+        b_collider = GetComponent<BoxCollider>();
 
         colours[5] = rend.material.color;
 
@@ -47,6 +48,7 @@ public class B_Eatable : MonoBehaviour
              //   powerUpParticles[0].Play();
                 break;
             case EatableType.multiColor:        
+
                 children = GetComponentsInChildren<Renderer>();
                 rend.material.color = colours[0];
                 children[1].material.color = colours[1];
@@ -63,22 +65,19 @@ public class B_Eatable : MonoBehaviour
                 //powerUpParticles[3].Play();
                 break;
             case EatableType.tierOne:
-                b_collider = GetComponent<BoxCollider>();
+                b_size = b_collider.bounds.size;
+                c_Choice = Random.Range(0, colours.Length);
+                points = .05f;
+                break;
+            case EatableType.tierTwo:
+                b_size = b_collider.bounds.size;
+                c_Choice = Random.Range(0, colours.Length);
+                points = .08f;
+                break;
+            case EatableType.tierThree:
                 b_size = b_collider.bounds.size;
                 c_Choice = Random.Range(0, colours.Length);
                 points = .1f;
-                break;
-            case EatableType.tierTwo:
-                b_collider = GetComponent<BoxCollider>();
-                b_size = b_collider.bounds.size;
-                c_Choice = Random.Range(0, colours.Length);
-                points = .5f;
-                break;
-            case EatableType.tierThree:
-                b_collider = GetComponent<BoxCollider>();
-                b_size = b_collider.bounds.size;
-                c_Choice = Random.Range(0, colours.Length);
-                points = 1.0f;
                 break;
             default:
                 break;
