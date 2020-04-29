@@ -38,6 +38,7 @@ public class P_Movement : MonoBehaviour
     int i;
     public bool isMultiColor = false;
     bool canMove = true;
+
     void Start()
     {
         i = Random.Range(0, colours.Length);
@@ -49,13 +50,14 @@ public class P_Movement : MonoBehaviour
         lvl_Man = FindObjectOfType<LevelStart>();
         audio_Man = FindObjectOfType<AudioManager>();
         mein_Audio = GetComponent<AudioSource>();
-       // StartCoroutine(ChangeColor());
+        // StartCoroutine(ChangeColor());
         rend.material.color = colours[i];
     }
 
     // Update is called once per frame
     void Update()
     {
+    
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Eat")) canMove = false;
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle")) canMove = true;
         if (b_collider.bounds.size.y <= .02f) lvl_Man.gameOver = true;
@@ -157,10 +159,10 @@ public class P_Movement : MonoBehaviour
 
     IEnumerator ChangeColor(float i, float j)
     {
-        yield return new WaitForSeconds(Random.Range(i,j));
+        yield return new WaitForSeconds(Random.Range(i, j));
         rend.material.color = colours[Random.Range(0, colours.Length)];
-        if(isMultiColor)
-        StartCoroutine(ChangeColor(i,j));
+        if (isMultiColor)
+            StartCoroutine(ChangeColor(i, j));
     }
     void toggleBool(bool x)
     {
@@ -195,16 +197,17 @@ public class P_Movement : MonoBehaviour
     {
         if (c.GetComponent<B_Eatable>())
         {
-            anim.SetTrigger("Eating");
+          
             float x = c.GetComponent<B_Eatable>().points;
             if (c.GetComponent<B_Eatable>().e_Type == B_Eatable.EatableType.color)
             {
                 rend.material.color = c.GetComponent<B_Eatable>().rend.material.color;
-                //Destroy(c.gameObject);
+                
+                Destroy(c.gameObject);
             }
             else if (c.GetComponent<B_Eatable>().e_Type == B_Eatable.EatableType.multiColor)
             {
-                isMultiColor = true;
+                isMultiColor = true;    
                 StartCoroutine(MultiColored());
                 StartCoroutine(ChangeColor(.04f, .07f));
 
@@ -228,67 +231,50 @@ public class P_Movement : MonoBehaviour
                         if (c.GetComponent<B_Eatable>().rend.material.color == rend.material.color)
                         {
                             score += x * 10;
-
-                            //Play SFX
-                            //Play Animation
-
+                            anim.SetTrigger("Eating");
                             Destroy(c.gameObject);
-                            //Play CHomp Animation
-                            //Play Chomp SFX
-                            //Play Chomp VFX
                             print("YUMMMMM!");
                             print(b_collider.bounds.size + " Before");
                             audio_Man.PlayOneShotByIndex(Random.Range(0, audio_Man.eat.Length), audio_Man.sfxSource);
-                            container.transform.localScale += new Vector3(x, x, x);
+                            gameObject.transform.localScale += new Vector3(x, x, x);
                             anim.SetTrigger("Grow");
-                            //gameObject.transform.localScale += new Vector3(x, x, x);
 
                         }
                         else if (c.GetComponent<B_Eatable>().rend.material.color != rend.material.color)
                         {
+                            anim.SetTrigger("Eating");
+                            
                             print("Can't Eat, Wrong Color! YUK! PUKING!! SHRINKING!!!");
                             score -= c.GetComponent<B_Eatable>().points;
-                            //Play Vomit Animation
-                            //Play Shrinking VFX
-                            //Play Shringin SFX
-                            Destroy(c.gameObject);
-                            print(b_collider.bounds.size + " Before");
-                            container.transform.localScale += new Vector3(-x, -x, -x);
+                            c.gameObject.GetComponent<BoxCollider>().enabled = false;
+                            //Destroy(c.gameObject);
+                            gameObject.transform.localScale += new Vector3(-x, -x, -x);
                         }
                     }
                 }
-                else
+                if (isMultiColor)
                 {
                     score += x * 10;
-
-                    //Play SFX
-                    //Play Animation
-
+                    anim.SetTrigger("Eating");
                     Destroy(c.gameObject);
-                    //Play CHomp Animation
-                    //Play Chomp SFX
-                    //Play Chomp VFX
-                    print("YUMMMMM!");
-                    print(b_collider.bounds.size + " Before");
                     audio_Man.PlayOneShotByIndex(Random.Range(0, audio_Man.eat.Length), audio_Man.sfxSource);
-                    gameObject.transform.localScale += new Vector3(x, x, x);
-                    //gameObject.transform.localScale += new Vector3(x, x, x);
+                    gameObject.transform.parent.localScale += new Vector3(x, x, x);
+                    anim.SetTrigger("Grow");
                 }
-                //else
-                //    //Bounce Player
-                //    //Player Can't Eat Animation
-                //    print("Can't Eat, To wide!");
-                //}
-                //else
-                //    //Bounce Player
-                //    //Player Can't Eat Animation
-                //    print("Can't Eat, To tall!");
             }
         }
     }
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit(Collider c)
     {
-        if(other.gameObject.GetComponent<B_Eatable>())
-        print(b_collider.bounds.size + " After");
+
+        if (c.GetComponent<B_Eatable>())
+        {
+            if (c.GetComponent<B_Eatable>().e_Type == B_Eatable.EatableType.color)
+            {
+            }
+            else if (c.GetComponent<B_Eatable>().e_Type == B_Eatable.EatableType.multiColor)
+            {
+            }
+        }
     }
 }

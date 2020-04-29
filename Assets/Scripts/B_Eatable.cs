@@ -23,7 +23,8 @@ public class B_Eatable : MonoBehaviour
     public float points;
     int c_Choice;
     Transform b_Tran;
-
+    public bool isMulti;
+    public Color p_Color;
     void Start()
     {
   
@@ -32,7 +33,6 @@ public class B_Eatable : MonoBehaviour
             rend = gameObject.GetComponent<Renderer>();
         player = FindObjectOfType<P_Movement>().gameObject.GetComponent<BoxCollider>();
         b_collider = GetComponent<BoxCollider>();
-
         colours[5] = rend.material.color;
 
         switch (e_Type)
@@ -67,17 +67,17 @@ public class B_Eatable : MonoBehaviour
             case EatableType.tierOne:
                 b_size = b_collider.bounds.size;
                 c_Choice = Random.Range(0, colours.Length);
-                points = .05f;
+                points = .2f;
                 break;
             case EatableType.tierTwo:
                 b_size = b_collider.bounds.size;
                 c_Choice = Random.Range(0, colours.Length);
-                points = .08f;
+                points = .5f;
                 break;
             case EatableType.tierThree:
                 b_size = b_collider.bounds.size;
                 c_Choice = Random.Range(0, colours.Length);
-                points = .1f;
+                points = 1f;
                 break;
             default:
                 break;
@@ -114,25 +114,28 @@ public class B_Eatable : MonoBehaviour
             case EatableType.Shield:
                 break;
             case EatableType.tierOne:
-                if (b_collider.bounds.size.y < player.bounds.size.y) rend.material.color = colours[c_Choice];
+                if (b_collider.bounds.size.y < player.bounds.size.y)
+                        rend.material.color = colours[c_Choice];
                 else if (b_collider.bounds.size.y > player.bounds.size.y)
                     rend.material.color = colours[5];
-                else if (b_collider.bounds.size.y < player.bounds.size.y / 2 && player.bounds.size.y > b_collider.size.y * 4)
-                    rend.material.color = colours[5];
+                //else if (b_collider.bounds.size.y < player.bounds.size.y / 2 && player.bounds.size.y > b_collider.size.y * 4)
+                //    rend.material.color = colours[5];
                 break;
             case EatableType.tierTwo:
-                if (b_collider.bounds.size.y < player.bounds.size.y) rend.material.color = colours[c_Choice];
+                if (b_collider.bounds.size.y < player.bounds.size.y)  
+                        rend.material.color = colours[c_Choice];
                 else if (b_collider.bounds.size.y > player.bounds.size.y)
                     rend.material.color = colours[5];
-                else if (b_collider.bounds.size.y < player.bounds.size.y / 2 && player.bounds.size.y > b_collider.size.y * 4)
-                    rend.material.color = colours[5];
+                //else if (b_collider.bounds.size.y < player.bounds.size.y / 2 && player.bounds.size.y > b_collider.size.y * 4)
+                //    rend.material.color = colours[5];
                 break;
             case EatableType.tierThree:
-                if (b_collider.bounds.size.y < player.bounds.size.y) rend.material.color = colours[c_Choice];
+                if (b_collider.bounds.size.y < player.bounds.size.y)
+                        rend.material.color = colours[c_Choice];
                 else if (b_collider.bounds.size.y > player.bounds.size.y)
                     rend.material.color = colours[5];
-                else if (b_collider.bounds.size.y < player.bounds.size.y / 2 && player.bounds.size.y > b_collider.size.y * 4)
-                    rend.material.color = colours[5];
+                //else if (b_collider.bounds.size.y < player.bounds.size.y / 2 && player.bounds.size.y > b_collider.size.y * 4)
+                //    rend.material.color = colours[5];
                 break;
             default:
                 break;
