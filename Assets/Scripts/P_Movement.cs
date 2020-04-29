@@ -113,21 +113,21 @@ public class P_Movement : MonoBehaviour
             case WalkState.WASD:
                 if (canMove)
                 {
-                    p_Input = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+                    p_Input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
                     Vector3 camF = cam.transform.TransformDirection(Vector3.forward);
                     Vector3 camR = cam.transform.TransformDirection(Vector3.right);
                     camF.y = 0;
                     camR.y = 0;
-                    camF = camF.normalized;
-                    camR = camR.normalized;
+                    camF.Normalize();
+                    camR.Normalize();
                     //anim.SetFloat("Forward", p_Input.z);
                     //anim.SetFloat("LeftRight", p_Input.x);
                     anim.SetBool("isMoving", isMoving);
 
                     transform.position += (camF * p_Input.z + camR * p_Input.x) * p_MoveSpeed * Time.deltaTime;
-                    //GetComponentInParent<Transform>().transform.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.right, camF * p_Input.z + camR * p_Input.x, 2.5f * Time.fixedDeltaTime, 0.0f));
+                    transform.parent.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.parent.forward, camF * p_Input.z + camR * p_Input.x, rotateSpeed * Time.fixedDeltaTime, 0.0f));
 
-                    //transform.Rotate(new Vector3(0, 0, Input.GetAxis("MouseX")) * rotateSpeed * Time.smoothDeltaTime, Space.Self);
+                    //transform.parent.Rotate(new Vector3(0, Input.GetAxis("MouseX"), 0) * rotateSpeed * Time.smoothDeltaTime, Space.Self);
                     //rb.MovePosition(transform.position + p_Input * p_MoveSpeed * Time.deltaTime);
                     if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) isMoving = true;
                     else if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0) isMoving = false;
@@ -247,7 +247,7 @@ public class P_Movement : MonoBehaviour
                             print("Can't Eat, Wrong Color! YUK! PUKING!! SHRINKING!!!");
                             score -= c.GetComponent<B_Eatable>().points;
                             c.gameObject.GetComponent<BoxCollider>().enabled = false;
-                            //Destroy(c.gameObject);
+                            Destroy(c.gameObject);
                             gameObject.transform.localScale += new Vector3(-x, -x, -x);
                         }
                     }

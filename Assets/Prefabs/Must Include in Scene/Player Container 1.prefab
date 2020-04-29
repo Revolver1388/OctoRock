@@ -710,7 +710,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -3028896908962646393, guid: 7011d1cd221dc1c47a1fea549ca1cfe6, type: 3}
+  m_Mesh: {fileID: -3028896908962646393, guid: 1b23d0a0cde4d79468b348778c1bee87, type: 3}
   m_Bones:
   - {fileID: 6035621856000571976}
   - {fileID: 3672272391655073575}
@@ -784,7 +784,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisState: 1
   cam: {fileID: 0}
-  rotateSpeed: 120
+  rotateSpeed: 30
   arms:
   - {fileID: 7056718053115752986}
   - {fileID: 7056718052397611416}
@@ -852,8 +852,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.0142147085, y: 0.007784232, z: 0.0055365344}
-  m_Center: {x: -0.0000057435036, y: 0.0018321229, z: 0.0029134746}
+  m_Size: {x: 0.0142147085, y: 0.007784232, z: 0.0009875455}
+  m_Center: {x: -0.0000057435036, y: 0.000968895, z: 0.0006389827}
 --- !u!82 &2910838898610178547
 AudioSource:
   m_ObjectHideFlags: 0
