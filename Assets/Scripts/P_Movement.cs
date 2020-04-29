@@ -234,7 +234,7 @@ public class P_Movement : MonoBehaviour
                             print("YUMMMMM!");
                             print(b_collider.bounds.size + " Before");
                             audio_Man.PlayOneShotByIndex(Random.Range(0, audio_Man.eat.Length), audio_Man.sfxSource);
-                            gameObject.transform.localScale += new Vector3(x, x, x);
+                            gameObject.transform.parent.localScale += new Vector3(x, x, x);
                             anim.SetTrigger("Grow");
 
                         }
@@ -246,7 +246,7 @@ public class P_Movement : MonoBehaviour
                             score -= c.GetComponent<B_Eatable>().points;
                             c.gameObject.GetComponent<BoxCollider>().enabled = false;
                             Destroy(c.gameObject);
-                            gameObject.transform.localScale += new Vector3(-x, -x, -x);
+                            gameObject.transform.parent.localScale += new Vector3(-x, -x, -x);
                         }
                     }
                 }

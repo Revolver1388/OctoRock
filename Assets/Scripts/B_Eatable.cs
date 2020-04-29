@@ -67,17 +67,17 @@ public class B_Eatable : MonoBehaviour
             case EatableType.tierOne:
                 b_size = b_collider.bounds.size;
                 c_Choice = Random.Range(0, colours.Length);
-                points = .2f;
+                points = .5f;
                 break;
             case EatableType.tierTwo:
                 b_size = b_collider.bounds.size;
                 c_Choice = Random.Range(0, colours.Length);
-                points = .5f;
+                points = 1f;
                 break;
             case EatableType.tierThree:
                 b_size = b_collider.bounds.size;
                 c_Choice = Random.Range(0, colours.Length);
-                points = 1f;
+                points = 1.5f;
                 break;
             default:
                 break;
