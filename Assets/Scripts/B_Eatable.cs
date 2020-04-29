@@ -101,10 +101,7 @@ public class B_Eatable : MonoBehaviour
                 {
                     child.material.color = colours[c_Choice];
                 }
-                if (b_collider.bounds.size.y < player.bounds.size.y / 2 && player.bounds.size.y > b_collider.size.y * 4)
-                {
-                    GetComponentInParent<GameObject>().gameObject.SetActive(false);
-                }
+    
                     break;
             case EatableType.multiColor:
                 rend.material.color = colours[c_Choice];

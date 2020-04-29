@@ -125,7 +125,7 @@ public class P_Movement : MonoBehaviour
                     anim.SetBool("isMoving", isMoving);
 
                     transform.position += (camF * p_Input.z + camR * p_Input.x) * p_MoveSpeed * Time.deltaTime;
-                    transform.parent.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.parent.forward, camF * p_Input.z + camR * p_Input.x, rotateSpeed * Time.fixedDeltaTime, 0.0f));
+                   // transform.parent.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.parent.forward, camF * p_Input.z , rotateSpeed * Time.fixedDeltaTime, 0.0f));
              
                     if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) isMoving = true;
                     else if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0) isMoving = false;
