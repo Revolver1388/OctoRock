@@ -13,7 +13,7 @@ public class PlayerCamera : MonoBehaviour
 {
 
     #region Player
-    GameObject Player;
+    [SerializeField] GameObject Player;
     P_Movement pl;
     Rigidbody p_RB;
     #endregion
@@ -35,7 +35,7 @@ public class PlayerCamera : MonoBehaviour
     float YAxis;
     [SerializeField] private float zoomTarget;
     [SerializeField] private float zoomLerpTime;
-    float camDistMin = 1f;
+    float camDistMin = 10;
     [SerializeField] Vector2 pitchMinMax;
     Vector3 currentRotation;
     Vector3 smoothingVelocity;
@@ -55,19 +55,12 @@ public class PlayerCamera : MonoBehaviour
 
     #endregion
 
-    #region Field of View and Zoom Function Smoothing
-    float i_FOV = 70;
-    float c_FOV;
-    #endregion
-
     enum CameraType { Orbit }
    
 
 
     private void Awake()
     {
-        if (!Player)
-            Player = FindObjectOfType<P_Movement>().gameObject;
         if (!pl) pl = FindObjectOfType<P_Movement>();
         if (!aimer)
             aimer = GameObject.FindGameObjectWithTag("CameraAimer");
@@ -86,12 +79,8 @@ public class PlayerCamera : MonoBehaviour
     }
     private void Update()
     {
-        if (main != null)
-        {
-            c_FOV = main.fieldOfView;
-        }
-        UpdateZoom();
       
+        camDist = UpdateZoom();
     }
     private void LateUpdate()
     {
@@ -111,25 +100,15 @@ public class PlayerCamera : MonoBehaviour
     }
     #region CameraUtilities
 
-    float CameraDistanceOffset(float x)
+    private float UpdateZoom()
     {
-        if (x < 2) cameraOffsetZ = 10;
-        else if (x > 2 && x < 5) cameraOffsetZ = 20;
-        else if (x > 5 && x < 8) cameraOffsetZ = 25;
-        else if (x > 8 && x < 13) cameraOffsetZ = 30;
-        else if (x > 50 && x < 70) cameraOffsetZ = 50;
-        return cameraOffsetZ;
-    }
-    private void UpdateZoom()
-    {
-        cameraOffsetZ = CameraDistanceOffset(Player.transform.parent.parent.localScale.y);
-        zoomTarget = Player.transform.parent.localScale.y + cameraOffsetZ;
+        zoomTarget = Player.transform.localScale.y * 8;
         if (main.orthographicSize != zoomTarget)
         {
             float target = Mathf.Lerp(main.orthographicSize, zoomTarget, zoomLerpTime * Time.deltaTime);
             main.orthographicSize = Mathf.Clamp(target, camDistMin, Mathf.Infinity);
-            camDist = main.orthographicSize;
         }
+        return main.orthographicSize;
     }
 
     //Checks cameras distance from the player and adjusts accordingly
@@ -147,25 +126,6 @@ public class PlayerCamera : MonoBehaviour
         invY = !invY;
     }
 
-    //set this up for all zooms, cinematic and what not 
-    void CameraZooms(bool x, float smoothing, float t_goal)
-    {
-        switch (x)
-        {
-            case true:
-                if (c_FOV < t_goal)
-                    main.fieldOfView += smoothing * Time.deltaTime;
-                else
-                    main.fieldOfView = t_goal;
-                break;
-            case false:
-                if (c_FOV > i_FOV)
-                    main.fieldOfView -= smoothing * Time.deltaTime;
-                else
-                    main.fieldOfView = i_FOV;
-                break;
-        }
-    }
     #endregion
 }
 
