@@ -106,25 +106,25 @@ public class B_Eatable : MonoBehaviour
             case EatableType.Shield:
                 break;
             case EatableType.tierOne:
-                if (transform.localScale.y < player.transform.localScale.y)
+                if (b_collider.bounds.size.y < player.GetComponent<BoxCollider>().bounds.size.y)
                         rend.material.color = colours[c_Choice];
-                else if (transform.localScale.y > player.transform.localScale.y)
+                else if (b_collider.bounds.size.y > player.GetComponent<BoxCollider>().bounds.size.y || b_collider.size.y < player.GetComponent<BoxCollider>().bounds.size.y/3)
                     rend.material.color = colours[5];
                 //else if (b_collider.bounds.size.y < player.bounds.size.y / 2 && player.bounds.size.y > b_collider.size.y * 4)
                 //    rend.material.color = colours[5];
                 break;
             case EatableType.tierTwo:
-                if (transform.localScale.y < player.transform.localScale.y)
+                if (b_collider.bounds.size.y < player.GetComponent<BoxCollider>().bounds.size.y)
                     rend.material.color = colours[c_Choice];
-                else if (transform.localScale.y > player.transform.localScale.y)
+                else if (b_collider.bounds.size.y > player.GetComponent<BoxCollider>().bounds.size.y || b_collider.size.y < player.GetComponent<BoxCollider>().bounds.size.y / 3)
                     rend.material.color = colours[5];
                 //else if (b_collider.bounds.size.y < player.bounds.size.y / 2 && player.bounds.size.y > b_collider.size.y * 4)
                 //    rend.material.color = colours[5];
                 break;
             case EatableType.tierThree:
-                if (transform.localScale.y < player.transform.localScale.y)
+                if (b_collider.bounds.size.y < player.GetComponent<BoxCollider>().bounds.size.y)
                     rend.material.color = colours[c_Choice];
-                else if (transform.localScale.y > player.transform.localScale.y)
+                else if (b_collider.bounds.size.y > player.GetComponent<BoxCollider>().bounds.size.y || b_collider.size.y < player.GetComponent<BoxCollider>().bounds.size.y / 3)
                     rend.material.color = colours[5];
                 //else if (b_collider.bounds.size.y < player.bounds.size.y / 2 && player.bounds.size.y > b_collider.size.y * 4)
                 //    rend.material.color = colours[5];

@@ -48,7 +48,7 @@ public class P_Movement : MonoBehaviour
     {
         _gCheckDist = (transform.localScale.y / 2) + 0.2f;
         if (isGrounded) transform.position = new Vector3(transform.position.x, ground.point.y + _gHeight, transform.position.z);
-
+        p_MoveSpeed = (transform.localScale.y / 3) + 8;
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Eat")) canMove = false;
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle")) canMove = true;
         if (transform.localScale.y <= .02f) lvl_Man.gameOver = true;
@@ -135,50 +135,56 @@ public class P_Movement : MonoBehaviour
             float x = c.GetComponent<B_Eatable>().points;
             if (c.GetComponent<B_Eatable>().e_Type == B_Eatable.EatableType.color)
             {
-                rend.material.color = c.GetComponent<B_Eatable>().rend.material.color;                
+                rend.material.color = c.GetComponent<B_Eatable>().rend.material.color;
                 Destroy(c.gameObject);
             }
             else if (c.GetComponent<B_Eatable>().e_Type == B_Eatable.EatableType.multiColor)
             {
-                isMultiColor = true;    
+                isMultiColor = true;
                 StartCoroutine(MultiColored());
                 StartCoroutine(ChangeColor(.04f, .07f));
             }
-         
+
             else
             {
-                if (!isMultiColor)
+                if (canMove)
                 {
-                    if (c.transform.localScale.y <= transform.localScale.y)
+                    if (c.GetComponent<BoxCollider>().bounds.size.y > GetComponent<BoxCollider>().bounds.size.y / 3)
                     {
-                        if (c.GetComponent<B_Eatable>().rend.material.color == rend.material.color)
+                        if (c.GetComponent<BoxCollider>().bounds.size.y <= GetComponent<BoxCollider>().bounds.size.y)
                         {
-                            score += x * 10;
-                            anim.SetTrigger("Eating");
-                            Destroy(c.gameObject);
-                            audio_Man.PlayOneShotByIndex(Random.Range(0, audio_Man.eat.Length), audio_Man.sfxSource);
-                            transform.localScale += new Vector3(x, x, x);
-                            anim.SetTrigger("Grow");
+                            if (!isMultiColor)
+                            {
+                                if (c.GetComponent<B_Eatable>().rend.material.color == rend.material.color)
+                                {
+                                    score += x * 10;
+                                    anim.SetTrigger("Eating");
+                                    Destroy(c.gameObject);
+                                    audio_Man.PlayOneShotByIndex(Random.Range(0, audio_Man.eat.Length), audio_Man.sfxSource);
+                                    transform.localScale += new Vector3(x, x, x);
+                                    anim.SetTrigger("Grow");
 
-                        }
-                        else if (c.GetComponent<B_Eatable>().rend.material.color != rend.material.color)
-                        {
-                            anim.SetTrigger("Eating");
-                            score -= c.GetComponent<B_Eatable>().points;
-                            c.gameObject.GetComponent<BoxCollider>().enabled = false;
-                            Destroy(c.gameObject);
-                           transform.localScale += new Vector3(-x, -x, -x);
+                                }
+                                else if (c.GetComponent<B_Eatable>().rend.material.color != rend.material.color)
+                                {
+                                    anim.SetTrigger("Eating");
+                                    score -= c.GetComponent<B_Eatable>().points;
+                                    c.gameObject.GetComponent<BoxCollider>().enabled = false;
+                                    Destroy(c.gameObject);
+                                    transform.localScale += new Vector3(-x, -x, -x);
+                                }
+                            }
+                            if (isMultiColor)
+                            {
+                                score += x * 10;
+                                anim.SetTrigger("Eating");
+                                Destroy(c.gameObject);
+                                audio_Man.PlayOneShotByIndex(Random.Range(0, audio_Man.eat.Length), audio_Man.sfxSource);
+                                transform.localScale += new Vector3(x, x, x);
+                                anim.SetTrigger("Grow");
+                            }
                         }
                     }
-                }
-                if (isMultiColor)
-                {
-                    score += x * 10;
-                    anim.SetTrigger("Eating");
-                    Destroy(c.gameObject);
-                    audio_Man.PlayOneShotByIndex(Random.Range(0, audio_Man.eat.Length), audio_Man.sfxSource);
-                    transform.localScale += new Vector3(x, x, x);
-                    anim.SetTrigger("Grow");
                 }
             }
         }
