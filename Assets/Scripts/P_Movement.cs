@@ -57,7 +57,7 @@ public class P_Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-    
+
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Eat")) canMove = false;
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle")) canMove = true;
         if (b_collider.bounds.size.y <= .02f) lvl_Man.gameOver = true;
@@ -111,22 +111,21 @@ public class P_Movement : MonoBehaviour
                 }
                 break;
             case WalkState.WASD:
+                Vector3 camF = cam.transform.TransformDirection(Vector3.forward);
+                Vector3 camR = cam.transform.TransformDirection(Vector3.right);
+                camF.y = 0;
+                camR.y = 0;
+                camF.Normalize();
+                camR.Normalize();
+                transform.parent.parent.localRotation = Quaternion.LookRotation(camF, cam.transform.up);
+                //transform.parent.parent.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.parent.parent.forward, camF, rotateSpeed * Time.fixedDeltaTime, 0.0f));
                 if (canMove)
                 {
                     p_Input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-                    Vector3 camF = cam.transform.TransformDirection(Vector3.forward);
-                    Vector3 camR = cam.transform.TransformDirection(Vector3.right);
-                    camF.y = 0;
-                    camR.y = 0;
-                    camF.Normalize();
-                    camR.Normalize();
-                    //anim.SetFloat("Forward", p_Input.z);
-                    //anim.SetFloat("LeftRight", p_Input.x);
                     anim.SetBool("isMoving", isMoving);
 
-                    transform.position += (camF * p_Input.z + camR * p_Input.x) * p_MoveSpeed * Time.deltaTime;
-                   // transform.parent.rotation = Quaternion.LookRotation(Vector3.RotateTowards(transform.parent.forward, camF * p_Input.z , rotateSpeed * Time.fixedDeltaTime, 0.0f));
-             
+                    transform.parent.position += (camF * p_Input.z /*+ camR * p_Input.x*/) * p_MoveSpeed * Time.deltaTime;
+
                     if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0) isMoving = true;
                     else if (Input.GetAxisRaw("Horizontal") == 0 && Input.GetAxisRaw("Vertical") == 0) isMoving = false;
 
@@ -140,6 +139,8 @@ public class P_Movement : MonoBehaviour
                     {
                         arm.SetActive(false);
                     }
+                    //This if for testing cam
+                    transform.parent.parent.localScale += new Vector3(Input.GetAxis("Mouse ScrollWheel"), Input.GetAxis("Mouse ScrollWheel"), Input.GetAxis("Mouse ScrollWheel"));
                 }
                 break;
             case WalkState.TPerson:
@@ -195,12 +196,11 @@ public class P_Movement : MonoBehaviour
     {
         if (c.GetComponent<B_Eatable>())
         {
-          
+            Vector3 _posOnEat = gameObject.transform.parent.parent.position;
             float x = c.GetComponent<B_Eatable>().points;
             if (c.GetComponent<B_Eatable>().e_Type == B_Eatable.EatableType.color)
             {
-                rend.material.color = c.GetComponent<B_Eatable>().rend.material.color;
-                
+                rend.material.color = c.GetComponent<B_Eatable>().rend.material.color;                
                 Destroy(c.gameObject);
             }
             else if (c.GetComponent<B_Eatable>().e_Type == B_Eatable.EatableType.multiColor)
@@ -208,7 +208,6 @@ public class P_Movement : MonoBehaviour
                 isMultiColor = true;    
                 StartCoroutine(MultiColored());
                 StartCoroutine(ChangeColor(.04f, .07f));
-
             }
             else if (c.GetComponent<B_Eatable>().e_Type == B_Eatable.EatableType.Shield)
             {
@@ -222,31 +221,26 @@ public class P_Movement : MonoBehaviour
             {
                 if (!isMultiColor)
                 {
-                    if (c.GetComponent<B_Eatable>().b_size.y <= b_collider.bounds.size.y/* && b_collider.bounds.size.y <= c.GetComponent<B_Eatable>().b_size.y * 10*/)
+                    if (c.GetComponent<B_Eatable>().b_size.y <= b_collider.bounds.size.y)
                     {
-                        //if (c.GetComponent<B_Eatable>().b_size.x <= b_collider.bounds.size.x)
-                        //{
                         if (c.GetComponent<B_Eatable>().rend.material.color == rend.material.color)
                         {
                             score += x * 10;
                             anim.SetTrigger("Eating");
                             Destroy(c.gameObject);
-                            print("YUMMMMM!");
-                            print(b_collider.bounds.size + " Before");
                             audio_Man.PlayOneShotByIndex(Random.Range(0, audio_Man.eat.Length), audio_Man.sfxSource);
-                            gameObject.transform.parent.localScale += new Vector3(x, x, x);
+                            gameObject.transform.parent.parent.localScale += new Vector3(x, x, x);
+                            gameObject.transform.parent.position = _posOnEat;
                             anim.SetTrigger("Grow");
 
                         }
                         else if (c.GetComponent<B_Eatable>().rend.material.color != rend.material.color)
                         {
                             anim.SetTrigger("Eating");
-                            
-                            print("Can't Eat, Wrong Color! YUK! PUKING!! SHRINKING!!!");
                             score -= c.GetComponent<B_Eatable>().points;
                             c.gameObject.GetComponent<BoxCollider>().enabled = false;
                             Destroy(c.gameObject);
-                            gameObject.transform.parent.localScale += new Vector3(-x, -x, -x);
+                            gameObject.transform.parent.parent.localScale += new Vector3(-x, -x, -x);
                         }
                     }
                 }
@@ -256,7 +250,7 @@ public class P_Movement : MonoBehaviour
                     anim.SetTrigger("Eating");
                     Destroy(c.gameObject);
                     audio_Man.PlayOneShotByIndex(Random.Range(0, audio_Man.eat.Length), audio_Man.sfxSource);
-                    gameObject.transform.parent.localScale += new Vector3(x, x, x);
+                    gameObject.transform.parent.parent.localScale += new Vector3(x, x, x);
                     anim.SetTrigger("Grow");
                 }
             }

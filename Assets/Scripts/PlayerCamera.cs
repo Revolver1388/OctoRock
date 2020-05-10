@@ -30,37 +30,34 @@ public class PlayerCamera : MonoBehaviour
     [Range(0, 1)]
     public float rotationsmoothTime = 0.202f;
     #endregion
+
     #region Camera Distance and Orbit Management
-    [Header("Distance from Player")]
-    [Range(1, 100)]
-    [SerializeField] public float distFromPlayer = 1;
     float YAxis;
-    float YDistSpeed = 1;
-    float camDistMax = 100;
-    float camDistMin = 0.2f;
+    [SerializeField] private float zoomTarget;
+    [SerializeField] private float zoomLerpTime;
+    float camDistMin = 1f;
     [SerializeField] Vector2 pitchMinMax;
     Vector3 currentRotation;
     Vector3 smoothingVelocity;
     float yaw;
     float pitch;
     #endregion
+
     #region CameraRayCasts
     Camera main;
     GameObject aimer;
-    // int p_LayerMask = 1 << 9;
     public LayerMask IgnoreMask;
     RaycastHit hit;
-    float wallCheckSmoothing = 20;
-    bool enclosed = false;
     [SerializeField] float cameraOffsetX;
     [SerializeField] float cameraOffsetY;
+    [SerializeField] float cameraOffsetZ;
     float camDist;
 
     #endregion
+
     #region Field of View and Zoom Function Smoothing
     float i_FOV = 70;
     float c_FOV;
-    float enclosedCam_FOV = 75;
     #endregion
 
     enum CameraType { Orbit }
@@ -93,23 +90,8 @@ public class PlayerCamera : MonoBehaviour
         {
             c_FOV = main.fieldOfView;
         }
-        distFromPlayer = UpDownCam(invY);
-        //camDist = CameraRaycast(distFromPlayer);
-        if (Player.GetComponent<BoxCollider>().bounds.size.y < 0.5f) distFromPlayer = 10;
-        else if (Player.GetComponent<BoxCollider>().bounds.size.y >= 0.5f && Player.GetComponent<BoxCollider>().bounds.size.y < 1) distFromPlayer = 20;
-        else if (Player.GetComponent<BoxCollider>().bounds.size.y >= 1 && Player.GetComponent<BoxCollider>().bounds.size.y < 1.5) distFromPlayer = 30;
-        else if (Player.GetComponent<BoxCollider>().bounds.size.y >= 1.5f && Player.GetComponent<BoxCollider>().bounds.size.y < 2) distFromPlayer = 40;
-        else if (Player.GetComponent<BoxCollider>().bounds.size.y >= 2f && Player.GetComponent<BoxCollider>().bounds.size.y < 2.5f) distFromPlayer = 50;
-        else if (Player.GetComponent<BoxCollider>().bounds.size.y >= 2.5f && Player.GetComponent<BoxCollider>().bounds.size.y < 3) distFromPlayer = 60;
-        else if (Player.GetComponent<BoxCollider>().bounds.size.y >= 3 && Player.GetComponent<BoxCollider>().bounds.size.y < 3.5f) distFromPlayer = 70;
-        else if (Player.GetComponent<BoxCollider>().bounds.size.y >= 3.5f && Player.GetComponent<BoxCollider>().bounds.size.y < 4) distFromPlayer = 80;
-        else if (Player.GetComponent<BoxCollider>().bounds.size.y >= 4f && Player.GetComponent<BoxCollider>().bounds.size.y < 4.5f) distFromPlayer = 90;
-        else if (Player.GetComponent<BoxCollider>().bounds.size.y >= 4.5f) distFromPlayer = 100;
-        else if (Player.GetComponent<BoxCollider>().bounds.size.y >= 30f) distFromPlayer = 200;
-
-
-        camDist = distFromPlayer;
-        //camDist = Player.GetComponent<BoxCollider>().bounds.size.y + 10;
+        UpdateZoom();
+      
     }
     private void LateUpdate()
     {
@@ -129,24 +111,25 @@ public class PlayerCamera : MonoBehaviour
     }
     #region CameraUtilities
 
-    //changes the distance of the cam based on the angle of the camera
-    float UpDownCam(bool x)
+    float CameraDistanceOffset(float x)
     {
-        if (distFromPlayer < camDistMin)
-            distFromPlayer = camDistMin;
-        if (distFromPlayer > camDistMax)
-            distFromPlayer = camDistMax;
-
-        if (x)
+        if (x < 2) cameraOffsetZ = 10;
+        else if (x > 2 && x < 5) cameraOffsetZ = 20;
+        else if (x > 5 && x < 8) cameraOffsetZ = 25;
+        else if (x > 8 && x < 13) cameraOffsetZ = 30;
+        else if (x > 50 && x < 70) cameraOffsetZ = 50;
+        return cameraOffsetZ;
+    }
+    private void UpdateZoom()
+    {
+        cameraOffsetZ = CameraDistanceOffset(Player.transform.parent.parent.localScale.y);
+        zoomTarget = Player.transform.parent.localScale.y + cameraOffsetZ;
+        if (main.orthographicSize != zoomTarget)
         {
-            if (distFromPlayer <= camDistMax && distFromPlayer >= camDistMin)
-                distFromPlayer += YAxis * YDistSpeed * Time.deltaTime;
-            return distFromPlayer;
+            float target = Mathf.Lerp(main.orthographicSize, zoomTarget, zoomLerpTime * Time.deltaTime);
+            main.orthographicSize = Mathf.Clamp(target, camDistMin, Mathf.Infinity);
+            camDist = main.orthographicSize;
         }
-        else
-            if (distFromPlayer <= camDistMax && distFromPlayer >= camDistMin)
-            distFromPlayer -= YAxis * YDistSpeed * Time.deltaTime;
-        return distFromPlayer;
     }
 
     //Checks cameras distance from the player and adjusts accordingly
@@ -162,18 +145,6 @@ public class PlayerCamera : MonoBehaviour
     public void switchInverseY()
     {
         invY = !invY;
-    }
-
-    //Zooms the camera out when in tight enclosures for a better view
-    void EnclosedCameraFunctions(bool w, bool x, bool y, bool z)
-    {
-        if (w && x || y && z)
-            enclosed = true;
-        else if (!w && !x || !y && !z)
-        {
-            enclosed = false;
-        }
-        CameraZooms(enclosed, wallCheckSmoothing, enclosedCam_FOV);
     }
 
     //set this up for all zooms, cinematic and what not 
