@@ -18,7 +18,7 @@ public class B_Eatable : MonoBehaviour
     
     ParticleSystem[] powerUpParticles;
 
-    BoxCollider player;
+    GameObject player;
     public float points;
     int c_Choice;
     public bool isMulti;
@@ -29,7 +29,7 @@ public class B_Eatable : MonoBehaviour
 
         if (!rend)
             rend = gameObject.GetComponent<Renderer>();
-        player = FindObjectOfType<P_Movement>().gameObject.GetComponent<BoxCollider>();
+        player = FindObjectOfType<P_Movement>().gameObject;
         b_collider = GetComponent<BoxCollider>();
         colours[5] = rend.material.color;
 

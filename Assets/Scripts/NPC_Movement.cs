@@ -37,7 +37,7 @@ public class NPC_Movement : MonoBehaviour
         }
         if (Physics.Raycast(transform.position, transform.forward, maxDistFromObstacle, whatIsObstacle))
         {
-            Debug.Log("Change direction to avoid obstacle");
+//Debug.Log("Change direction to avoid obstacle");
             moveDir = moveDir * -1;
             transform.rotation = Quaternion.LookRotation(moveDir);
             rbody.velocity = moveDir * moveForce;
@@ -54,7 +54,7 @@ public class NPC_Movement : MonoBehaviour
             }
 
             StartCoroutine(ChangeDirectionTimerHelper());
-            Debug.Log("Changing direction after wait");
+            //Debug.Log("Changing direction after wait");
             rbody.velocity = moveDir * moveForce;
         }
 

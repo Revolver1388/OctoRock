@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 [RequireComponent(typeof(Rigidbody))]
 
@@ -10,6 +11,10 @@ public class P_Movement : MonoBehaviour
     public enum WalkState { WASD }
     public WalkState thisState;
 
+    RaycastHit ground;
+    [SerializeField] float _gHeight;
+    float _gCheckDist;
+    public LayerMask IgnoreMask;
     LevelStart lvl_Man;
     [SerializeField] float rotateSpeed;
     [SerializeField] Camera cam;
@@ -17,6 +22,7 @@ public class P_Movement : MonoBehaviour
     float p_MoveSpeed = 8;
     bool isMoving = false;
     bool canMove = true;
+    public bool isGrounded;
     [SerializeField] Animator anim;
     [SerializeField] Renderer rend;
     [SerializeField] AudioSource mein_Audio;
@@ -40,10 +46,12 @@ public class P_Movement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //transform.localPosition = Vector3.zero;
+        _gCheckDist = (transform.localScale.y / 2) + 0.2f;
+        if (isGrounded) transform.position = new Vector3(transform.position.x, ground.point.y + _gHeight, transform.position.z);
+
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Eat")) canMove = false;
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle")) canMove = true;
-       // if (transform.localScale.y <= .02f) lvl_Man.gameOver = true;
+        if (transform.localScale.y <= .02f) lvl_Man.gameOver = true;
         switch (thisState)
         {
             case WalkState.WASD:
@@ -54,7 +62,6 @@ public class P_Movement : MonoBehaviour
                 camF.Normalize();
                 camR.Normalize();
                 transform.localRotation = Quaternion.LookRotation(camF, cam.transform.up);
-                //container.transform.localRotation  = Quaternion.LookRotation(Vector3.RotateTowards(container.transform.forward, camF, rotateSpeed * Time.fixedDeltaTime, 0.0f));
                 if (canMove)
                 {
                     p_Input = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
@@ -67,6 +74,7 @@ public class P_Movement : MonoBehaviour
 
                     if (isMoving && mein_Audio.isPlaying == false) { mein_Audio.Play(); }
                     if (!isMoving) mein_Audio.Stop();
+                  
                     //This if for testing cam
                     transform.localScale += new Vector3(Input.GetAxis("Mouse ScrollWheel"), Input.GetAxis("Mouse ScrollWheel"), Input.GetAxis("Mouse ScrollWheel"));
                 }
@@ -75,7 +83,11 @@ public class P_Movement : MonoBehaviour
                 break;
         }
     }
+    private void FixedUpdate()
+    {
+        CheckGround();
 
+    }
     IEnumerator ChangeColor(float i, float j)
     {
         yield return new WaitForSeconds(Random.Range(i, j));
@@ -85,7 +97,7 @@ public class P_Movement : MonoBehaviour
     }
     void toggleBool(bool x)
     {
-        _ = !x;
+        x = !x;
     }
 
     RaycastHit MouseFunctions(GameObject j)
@@ -104,7 +116,18 @@ public class P_Movement : MonoBehaviour
         yield return new WaitForSeconds(10);
         isMultiColor = false;
     }
-
+    void CheckGround()
+    {
+        if (Physics.Raycast(transform.position, -Vector3.up, out ground, _gCheckDist))
+        {
+            //Vector3 groundAngle = Vector3.Cross(ground.normal, Vector3.down);
+            //Vector3 groundSlopeDirection = Vector3.Cross(groundAngle, ground.normal);
+            isGrounded = true;
+        }
+        else
+            isGrounded = false;
+                
+    }
     private void OnTriggerEnter(Collider c)
     {
         if (c.GetComponent<B_Eatable>())
@@ -121,14 +144,7 @@ public class P_Movement : MonoBehaviour
                 StartCoroutine(MultiColored());
                 StartCoroutine(ChangeColor(.04f, .07f));
             }
-            else if (c.GetComponent<B_Eatable>().e_Type == B_Eatable.EatableType.Shield)
-            {
-
-            }
-            else if (c.GetComponent<B_Eatable>().e_Type == B_Eatable.EatableType.Speed)
-            {
-
-            }
+         
             else
             {
                 if (!isMultiColor)
