@@ -10,7 +10,7 @@ public class StartMenu : MonoBehaviour
     [SerializeField] GameObject[] Buttons;
     [SerializeField] Material[] materials;
     [SerializeField] Image StarterImage;
-
+    Canvas _canvas;
 
     [SerializeField] GameObject AboutPanel;
     [SerializeField] GameObject OptionsPanel;
@@ -23,6 +23,7 @@ public class StartMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _canvas = FindObjectOfType<Canvas>();
         foreach (var item in Buttons)
         {
             item.GetComponent<Renderer>().material = materials[0];
@@ -37,6 +38,7 @@ public class StartMenu : MonoBehaviour
         else if (Input.GetMouseButtonUp(0)) 
         {
             MouseFunctions(0);
+            
             if (MouseFunctions(0).collider.gameObject.name == "Start") startGame = true;
             else if (MouseFunctions(0).collider.gameObject.name == "Options") options = true;
             else if (MouseFunctions(0).collider.gameObject.name == "Quit") Application.Quit();
@@ -45,6 +47,7 @@ public class StartMenu : MonoBehaviour
         {
             StarterImage.transform.Rotate(new Vector3(0, 0, 360) * 1 * Time.deltaTime);
             StarterImage.rectTransform.sizeDelta = new Vector2(1000, 1000);
+            _canvas.enabled = false;
             if (StarterImage.rectTransform.sizeDelta == new Vector2(1000, 1000)) { StartCoroutine(Waitfer()); }
         }
     }
@@ -52,7 +55,8 @@ public class StartMenu : MonoBehaviour
     IEnumerator Waitfer()
     {
         yield return new WaitForSeconds(3);
-                SceneManager.LoadScene(1);            
+      
+        SceneManager.LoadScene(1);            
     }
     RaycastHit MouseFunctions(int i)
     {
@@ -62,6 +66,7 @@ public class StartMenu : MonoBehaviour
         {
             hit.collider.gameObject.GetComponent<Renderer>().material = materials[i];
         }
+     
         return hit;
     }
 

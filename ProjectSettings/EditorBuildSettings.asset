@@ -8,13 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/StartScreen.unity
     guid: d6304ed2548fe4b4db73faccd16b2320
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/MainScene.unity
     guid: 21ba8959b0b9c5e41889da424bb00b0b
-  - enabled: 0
-    path: Assets/Scenes/MattTestTown.unity
-    guid: d7d0a79ce8776cd4a83cc197ec631196
-  - enabled: 1
-    path: Assets/Scenes/Kyles_WorkEnviro.unity
-    guid: e4490fe82ebbdc64c8759bf76cdf6ab3
   m_configObjects: {}

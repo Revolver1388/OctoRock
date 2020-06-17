@@ -43,6 +43,7 @@ public class AudioManager : MonoBehaviour
     private void Start()
     {
         thisScene = SceneManager.GetActiveScene();
+        if (thisScene.name.ToString() != "StartScreen") ;
         StartCoroutine(PlayMusic("main_Theme"));
     }
 
