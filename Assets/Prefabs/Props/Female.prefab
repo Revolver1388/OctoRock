@@ -25,12 +25,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2683562576551528394}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -6.4783225, y: -4.0323997, z: -1.4255826}
-  m_LocalScale: {x: 0.854017, y: 1.267176, z: 1.932759}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0.2581656, y: -3.487089, z: -1.5818007}
+  m_LocalScale: {x: 1.1092211, y: 3.161995, z: 2.5103211}
   m_Children: []
-  m_Father: {fileID: 5108980436447130430}
-  m_RootOrder: 2
+  m_Father: {fileID: 5698190233364393392}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7027666258049552383
 MeshFilter:
@@ -104,12 +104,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5330275172754240634}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -6.6941957, y: 0.15201446, z: -1.4882928}
-  m_LocalScale: {x: 0.44868702, y: 0.44868702, z: 0.44868702}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -0.022216585, y: 1.9477444, z: -1.7382823}
+  m_LocalScale: {x: 0.5827672, y: 1.1196126, z: 0.5827671}
   m_Children: []
-  m_Father: {fileID: 5108980436447130430}
-  m_RootOrder: 1
+  m_Father: {fileID: 5698190233364393392}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8863296372705529955
 MeshFilter:
@@ -185,9 +185,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7126148186079437314}
   m_LocalRotation: {x: 0.000000021855694, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -6.6770906, y: -1.3476032, z: -0.79167277}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.769925, y: 0.769925, z: 0.400752}
-  m_Children: []
+  m_Children:
+  - {fileID: 3985322210810364970}
+  - {fileID: 4805285478608705718}
   m_Father: {fileID: 5108980436447130430}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -270,8 +272,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5698190233364393392}
-  - {fileID: 3985322210810364970}
-  - {fileID: 4805285478608705718}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -356,7 +356,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   e_Type: 0
-  b_size: {x: 0, y: 0, z: 0}
   b_Color: {fileID: 0}
-  rend: {fileID: 0}
+  rend: {fileID: 260094345172378092}
   points: 0
+  isMulti: 0
+  p_Color: {r: 0, g: 0, b: 0, a: 0}

@@ -111,10 +111,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   e_Type: 4
-  b_size: {x: 0, y: 0, z: 0}
   b_Color: {fileID: 0}
-  rend: {fileID: 0}
+  rend: {fileID: 5690826787461199100}
   points: 0
+  isMulti: 0
+  p_Color: {r: 0, g: 0, b: 0, a: 0}
 --- !u!65 &4489992002807906745
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -126,5 +127,5 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.38636872, y: 0.3645059, z: 0.07591878}
-  m_Center: {x: -0.09900047, y: -0.14235096, z: 0.05045939}
+  m_Size: {x: 0.38636872, y: 0.3645059, z: 0.11337295}
+  m_Center: {x: -0.09900047, y: -0.14235096, z: 0.06918648}

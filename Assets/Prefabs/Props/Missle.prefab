@@ -125,7 +125,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   e_Type: 0
-  b_size: {x: 0, y: 0, z: 0}
   b_Color: {fileID: 0}
-  rend: {fileID: 0}
+  rend: {fileID: 5686942305235035915}
   points: 0
+  isMulti: 0
+  p_Color: {r: 0, g: 0, b: 0, a: 0}

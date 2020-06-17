@@ -28,7 +28,7 @@ public class B_Eatable : MonoBehaviour
   
 
         if (!rend)
-            rend = gameObject.GetComponent<Renderer>();
+            rend = gameObject.GetComponentInChildren<Renderer>();
         player = FindObjectOfType<P_Movement>().gameObject;
         b_collider = GetComponent<BoxCollider>();
         colours[5] = rend.material.color;
@@ -108,7 +108,7 @@ public class B_Eatable : MonoBehaviour
             case EatableType.tierOne:
                 if (b_collider.bounds.size.y < player.GetComponent<BoxCollider>().bounds.size.y)
                         rend.material.color = colours[c_Choice];
-                else if (b_collider.bounds.size.y > player.GetComponent<BoxCollider>().bounds.size.y || b_collider.size.y < player.GetComponent<BoxCollider>().bounds.size.y/3)
+                else if (b_collider.bounds.size.y > player.GetComponent<BoxCollider>().bounds.size.y || b_collider.size.y < player.GetComponent<BoxCollider>().bounds.size.y/6)
                     rend.material.color = colours[5];
                 //else if (b_collider.bounds.size.y < player.bounds.size.y / 2 && player.bounds.size.y > b_collider.size.y * 4)
                 //    rend.material.color = colours[5];
@@ -116,7 +116,7 @@ public class B_Eatable : MonoBehaviour
             case EatableType.tierTwo:
                 if (b_collider.bounds.size.y < player.GetComponent<BoxCollider>().bounds.size.y)
                     rend.material.color = colours[c_Choice];
-                else if (b_collider.bounds.size.y > player.GetComponent<BoxCollider>().bounds.size.y || b_collider.size.y < player.GetComponent<BoxCollider>().bounds.size.y / 3)
+                else if (b_collider.bounds.size.y > player.GetComponent<BoxCollider>().bounds.size.y || b_collider.size.y < player.GetComponent<BoxCollider>().bounds.size.y / 6)
                     rend.material.color = colours[5];
                 //else if (b_collider.bounds.size.y < player.bounds.size.y / 2 && player.bounds.size.y > b_collider.size.y * 4)
                 //    rend.material.color = colours[5];
@@ -124,7 +124,7 @@ public class B_Eatable : MonoBehaviour
             case EatableType.tierThree:
                 if (b_collider.bounds.size.y < player.GetComponent<BoxCollider>().bounds.size.y)
                     rend.material.color = colours[c_Choice];
-                else if (b_collider.bounds.size.y > player.GetComponent<BoxCollider>().bounds.size.y || b_collider.size.y < player.GetComponent<BoxCollider>().bounds.size.y / 3)
+                else if (b_collider.bounds.size.y > player.GetComponent<BoxCollider>().bounds.size.y || b_collider.size.y < player.GetComponent<BoxCollider>().bounds.size.y / 6)
                     rend.material.color = colours[5];
                 //else if (b_collider.bounds.size.y < player.bounds.size.y / 2 && player.bounds.size.y > b_collider.size.y * 4)
                 //    rend.material.color = colours[5];

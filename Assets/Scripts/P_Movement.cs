@@ -27,15 +27,21 @@ public class P_Movement : MonoBehaviour
     [SerializeField] Renderer rend;
     [SerializeField] AudioSource mein_Audio;
     AudioManager audio_Man;
-
-    Color[] colours = { Color.red, Color.blue, Color.green, Color.yellow, Color.white };
+    public static P_Movement _instance;
+    [SerializeField] Color[] colours = { Color.red, Color.blue, Color.green, Color.yellow, Color.white };
+    int _colorInt = 0;
     public bool isMultiColor = false;
     int i;
     public float score;
 
+
+ 
     void Start()
     {
-        i = Random.Range(0, colours.Length);
+        if (!_instance) _instance = this;
+        else
+            Destroy(_instance);
+        i = Random.Range(0, 4);
         cam = Camera.main;
         lvl_Man = FindObjectOfType<LevelStart>();
         audio_Man = FindObjectOfType<AudioManager>();
@@ -45,13 +51,18 @@ public class P_Movement : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        _gCheckDist = (transform.localScale.y / 2) + 0.2f;
-        if (isGrounded) transform.position = new Vector3(transform.position.x, ground.point.y + _gHeight, transform.position.z);
-        p_MoveSpeed = (transform.localScale.y / 3) + 8;
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Eat")) canMove = false;
+    {              
+       // _gCheckDist = (transform.localScale.y / 2) + 0.2f;
+       // if (isGrounded) transform.position = new Vector3(transform.position.x, ground.point.y + _gHeight, transform.position.z);
+        p_MoveSpeed = (transform.localScale.y / 3) + 8;//player speed dependent on size**** Adjust for balance
+     
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Eat") || anim.GetCurrentAnimatorStateInfo(0).IsName("Grow")) canMove = false;
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle")) canMove = true;
         if (transform.localScale.y <= .02f) lvl_Man.gameOver = true;
+        if (!isMultiColor)
+        {
+            ColorWheel();
+        }
         switch (thisState)
         {
             case WalkState.WASD:
@@ -74,9 +85,9 @@ public class P_Movement : MonoBehaviour
 
                     if (isMoving && mein_Audio.isPlaying == false) { mein_Audio.Play(); }
                     if (!isMoving) mein_Audio.Stop();
-                  
+
                     //This if for testing cam
-                    transform.localScale += new Vector3(Input.GetAxis("Mouse ScrollWheel"), Input.GetAxis("Mouse ScrollWheel"), Input.GetAxis("Mouse ScrollWheel"));
+                    //transform.localScale += new Vector3(Input.GetAxis("Mouse ScrollWheel"), Input.GetAxis("Mouse ScrollWheel"), Input.GetAxis("Mouse ScrollWheel"));
                 }
                 break;
             default:
@@ -85,9 +96,11 @@ public class P_Movement : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        CheckGround();
+        //CheckGround();
 
     }
+
+
     IEnumerator ChangeColor(float i, float j)
     {
         yield return new WaitForSeconds(Random.Range(i, j));
@@ -98,6 +111,17 @@ public class P_Movement : MonoBehaviour
     void toggleBool(bool x)
     {
         x = !x;
+    }
+
+    void ColorWheel()
+    {
+        if (_colorInt > 4) _colorInt = 0;
+        if (_colorInt <= -1) _colorInt = 4;
+        if (Input.GetAxis("Mouse ScrollWheel") > 0)
+            _colorInt += 1;
+        else if (Input.GetAxis("Mouse ScrollWheel") < 0)
+            _colorInt -= 1;
+        rend.material.color = colours[_colorInt];
     }
 
     RaycastHit MouseFunctions(GameObject j)
@@ -116,18 +140,18 @@ public class P_Movement : MonoBehaviour
         yield return new WaitForSeconds(10);
         isMultiColor = false;
     }
-    void CheckGround()
-    {
-        if (Physics.Raycast(transform.position, -Vector3.up, out ground, _gCheckDist))
-        {
-            //Vector3 groundAngle = Vector3.Cross(ground.normal, Vector3.down);
-            //Vector3 groundSlopeDirection = Vector3.Cross(groundAngle, ground.normal);
-            isGrounded = true;
-        }
-        else
-            isGrounded = false;
+    //void CheckGround()
+    //{
+    //    if (Physics.Raycast(transform.position, -Vector3.up, out ground, _gCheckDist))
+    //    {
+    //        //Vector3 groundAngle = Vector3.Cross(ground.normal, Vector3.down);
+    //        //Vector3 groundSlopeDirection = Vector3.Cross(groundAngle, ground.normal);
+    //        isGrounded = true;
+    //    }
+    //    else
+    //        isGrounded = false;
                 
-    }
+    //}
     private void OnTriggerEnter(Collider c)
     {
         if (c.GetComponent<B_Eatable>())
@@ -135,7 +159,7 @@ public class P_Movement : MonoBehaviour
             float x = c.GetComponent<B_Eatable>().points;
             if (c.GetComponent<B_Eatable>().e_Type == B_Eatable.EatableType.color)
             {
-                rend.material.color = c.GetComponent<B_Eatable>().rend.material.color;
+                //rend.material.color = c.GetComponent<B_Eatable>().rend.material.color;
                 Destroy(c.gameObject);
             }
             else if (c.GetComponent<B_Eatable>().e_Type == B_Eatable.EatableType.multiColor)
@@ -149,9 +173,10 @@ public class P_Movement : MonoBehaviour
             {
                 if (canMove)
                 {
-                    if (c.GetComponent<BoxCollider>().bounds.size.y > GetComponent<BoxCollider>().bounds.size.y / 3)
+          
+                    if (c.GetComponent<BoxCollider>().bounds.size.y > GetComponent<BoxCollider>().bounds.size.y / 6)
                     {
-                        if (c.GetComponent<BoxCollider>().bounds.size.y <= GetComponent<BoxCollider>().bounds.size.y)
+                        if (c.GetComponent<BoxCollider>().bounds.size.y <= GetComponent<BoxCollider>().bounds.size.y + 1)
                         {
                             if (!isMultiColor)
                             {
@@ -174,7 +199,7 @@ public class P_Movement : MonoBehaviour
                                     transform.localScale += new Vector3(-x, -x, -x);
                                 }
                             }
-                            if (isMultiColor)
+                           else
                             {
                                 score += x * 10;
                                 anim.SetTrigger("Eating");
@@ -189,6 +214,8 @@ public class P_Movement : MonoBehaviour
             }
         }
     }
+
+
     private void OnTriggerExit(Collider c)
     {
 

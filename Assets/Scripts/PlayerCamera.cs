@@ -62,19 +62,15 @@ public class PlayerCamera : MonoBehaviour
     private void Awake()
     {
         if (!pl) pl = FindObjectOfType<P_Movement>();
-        if (!aimer)
-            aimer = GameObject.FindGameObjectWithTag("CameraAimer");
-        if (!main)
-            main = Camera.main;
-        if (!p_RB)
-            p_RB = Player.GetComponent<Rigidbody>();
+        if (!aimer) aimer = GameObject.FindGameObjectWithTag("CameraAimer");
+        if (!main) main = Camera.main;
+        if (!p_RB) p_RB = Player.GetComponent<Rigidbody>();
     }
     void Start()
     {
        
         currentRotation = Vector3.SmoothDamp(currentRotation, Player.transform.eulerAngles, ref smoothingVelocity, rotationsmoothTime);
-        if (lockCursor)
-            Cursor.lockState = CursorLockMode.Locked;
+        if (lockCursor) Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
     private void Update()

@@ -131,14 +131,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 068f274c9f3caf44991976266ea88a73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Player: {fileID: 0}
   lockCursor: 0
   invY: 0
   sensitivity: 2.5
   rotationsmoothTime: 0.202
-  distFromPlayer: 10.9
-  pitchMinMax: {x: 1, y: 100}
+  zoomTarget: 1
+  zoomLerpTime: 3
+  pitchMinMax: {x: 1, y: 90}
   IgnoreMask:
     serializedVersion: 2
     m_Bits: 0
   cameraOffsetX: 0
   cameraOffsetY: 0
+  cameraOffsetZ: 0
